@@ -1,4 +1,4 @@
-package UTDC;
+package UTDC.Models;
 
 import java.time.LocalDateTime;
 import java.util.List;

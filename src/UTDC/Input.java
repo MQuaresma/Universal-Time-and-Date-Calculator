@@ -18,6 +18,11 @@ package UTDC;
  */
 import static java.lang.System.out;
 import static java.lang.System.in;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -26,21 +31,57 @@ public class Input {
  /**
   * Métodos de Classe
   */
+
+ public static LocalDate lerDate(){
+     Scanner input = new Scanner(in);
+     boolean ok = false;
+     String date_txt;
+     LocalDate dt = null;
+     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+     while(!ok){
+         try{
+             date_txt = input.nextLine();
+             dt = LocalDate.parse(date_txt, formatter);
+             ok = true;
+         }catch(InputMismatchException | DateTimeParseException e){
+             e.printStackTrace();
+             out.println("Data Inválida");
+         }
+     }
+     return dt;
+ }
+
+ public static LocalDateTime lerDateTime(){
+    Scanner input = new Scanner(in);
+    boolean ok = false;
+    String date_txt;
+    LocalDateTime dt = null;
+    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    while(!ok){
+        try{
+            date_txt = input.nextLine();
+            dt = LocalDateTime.parse(date_txt, formatter);
+            ok = true;
+        }catch(InputMismatchException | DateTimeParseException e){
+            out.println("Data Inválida");
+        }
+    }
+    return dt;
+}
     
  public static String lerString() {
      Scanner input = new Scanner(in);
-     boolean ok = false; 
+     boolean ok = false;
      String txt = "";
      while(!ok) {
          try {
              txt = input.nextLine();
              ok = true;
+         }catch(InputMismatchException | DateTimeParseException e){
+             out.println("Texto Invalido");
+             out.print("Novo valor: ");
+             input.nextLine();
          }
-         catch(InputMismatchException e) 
-             { out.println("Texto Invalido"); 
-               out.print("Novo valor: ");
-               input.nextLine(); 
-             }
      }
      //input.close();
      return txt;

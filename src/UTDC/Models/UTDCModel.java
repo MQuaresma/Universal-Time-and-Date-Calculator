@@ -1,4 +1,4 @@
-package UTDC;
+package UTDC.Models;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package UTDC;
+package UTDC.Views;
 
 import java.util.List;
 import java.util.Arrays;
@@ -35,6 +35,15 @@ public class UTDCView {
         List<Opcao> linhas1 = Arrays.asList(op11, op12, op13, op14);
         Menu menuPrincipal = new Menu(linhas1,"Initial Menu");
         menusUTDC.addMenu(1,menuPrincipal);
+
+        Opcao op21, op22, op23, op24;
+        op21 = new Opcao("Duration between dates ..........", "D");
+        op22 = new Opcao("Add amount to date ..............", "A");
+        op23 = new Opcao("Subtract amount from date .......", "S");
+        op24 = new Opcao("Main menu .......................", "M");
+        List<Opcao> linhas2 = Arrays.asList(op21, op22, op23, op24);
+        Menu dateTimeMenu = new Menu(linhas2, "Date/Time Calculator Mode");
+        menusUTDC.addMenu(2, dateTimeMenu);
 
         //return menu
         return menusUTDC;

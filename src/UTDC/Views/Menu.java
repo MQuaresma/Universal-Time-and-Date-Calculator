@@ -1,4 +1,4 @@
-package UTDC;
+package UTDC.Views;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class Menu {
         System.out.println("--------------------------------------------");
         for (Opcao o : this.linhas)
             o.print();
-        System.out.println("          Insert your option:");
+        System.out.print("          Insert your option:");
     }
 
     public List<Opcao> getLinhas() {

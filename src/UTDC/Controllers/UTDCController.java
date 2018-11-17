@@ -1,9 +1,22 @@
-package UTDC;
+package UTDC.Controllers;
+
+import UTDC.Input;
+import UTDC.Views.Menu;
+import UTDC.Models.UTDCModel;
+import UTDC.Views.UTDCView;
+
+import java.time.LocalDate;
+
+import static java.time.temporal.ChronoUnit.*;
 
 public class UTDCController {
 
     private UTDCModel model;
     private UTDCView view;
+    private ControllerInterface dateTimeController;
+    private ControllerInterface managementController;
+    private ControllerInterface timeZoneController;
+
 
     public UTDCController(){}
 
@@ -16,6 +29,7 @@ public class UTDCController {
     }
 
     public void startFlow(){
+        this.initControllers();
         Menu menu = view.getMenu(1);
         String opcao;
         do{
@@ -23,13 +37,13 @@ public class UTDCController {
             opcao = Input.lerString().toUpperCase();
             switch (opcao){
                 case "D":
-                    flowDateTime();
+                    this.dateTimeController.startFlow(view.getMenu(2));
                     break;
                 case "M":
-                    flowManagement();
+                    this.managementController.startFlow(view.getMenu(3));
                     break;
                 case "T":
-                    flowTimezone();
+                    this.timeZoneController.startFlow(view.getMenu(4));
                     break;
                 case "E":
                     break;
@@ -40,22 +54,10 @@ public class UTDCController {
         } while (!opcao.equals("E"));
     }
 
-    //------------Date/Time calculator mode------------
-
-    private void flowDateTime(){
-        System.out.println("TO IMPLEMENT!");
-    }
-
-    //------------Slot management mode------------
-
-    private void flowManagement(){
-        System.out.println("TO IMPLEMENT!");
-    }
-
-    //------------Timezone calculator mode------------
-
-    private void flowTimezone(){
-        System.out.println("TO IMPLEMENT!");
+    private void initControllers(){
+        this.dateTimeController = new DateTimeModeController();
+        this.managementController = new ManagementController();
+        this.timeZoneController = new TimeZoneController();
     }
 
 }
