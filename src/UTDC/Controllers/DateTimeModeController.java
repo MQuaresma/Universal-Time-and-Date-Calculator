@@ -5,6 +5,7 @@ import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 
 import static java.time.temporal.ChronoUnit.*;
@@ -36,13 +37,28 @@ public class DateTimeModeController implements ControllerInterface {
 
     public void durationBetweenDates(){
         System.out.println("Duration between dates");
-        System.out.println("Date format: Year-Month-Day");
+        UTDCView.optionsDates();
+        String option = Input.lerString();
+
+        switch (option) {
+            case "1":
+                dbd_LocalDate();
+                break;
+            case "2":
+                dbd_LocalDateTime();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void dbd_LocalDate(){
         LocalDate start, end;
         System.out.print("Initial date: ");
         start = Input.lerDate();
         System.out.print("End date: ");
         end = Input.lerDate();
-        UTDCView.unitiesOptions(1);
+        UTDCView.unitiesOptionsLocalDate(1);
 
         String options = Input.lerString();
         String[] unities = options.split("\\s+");
@@ -66,6 +82,48 @@ public class DateTimeModeController implements ControllerInterface {
         }
     }
 
+    public void dbd_LocalDateTime(){
+        LocalDateTime start, end;
+        System.out.print("Initial date: ");
+        start = Input.lerDateTime();
+        System.out.print("End date: ");
+        end = Input.lerDateTime();
+        UTDCView.unitiesOptionsLocalDateTime(1);
+
+        String options = Input.lerString();
+        String[] unities = options.split("\\s+");
+
+        for (String option : unities){
+            switch (option){
+                case "1":
+                    System.out.println(YEARS.between(start,end) + " Years");
+                    break;
+                case "2":
+                    System.out.println(MONTHS.between(start,end) + " Months");
+                    break;
+                case "3":
+                    System.out.println(DAYS.between(start,end) + " Days");
+                    break;
+                case "4":
+                    System.out.println(WEEKS.between(start,end) + " Weeks");
+                    break;
+                case "5":
+                    System.out.println(HOURS.between(start,end) + " Hours");
+                    break;
+                case "6":
+                    System.out.println(MINUTES.between(start,end) + " Minutes");
+                    break;
+                case "7":
+                    System.out.println(SECONDS.between(start,end) + " Seconds");
+                    break;
+                case "8":
+                    System.out.println(NANOS.between(start,end) + " Nanoseconds");
+                    break;
+                default: break;
+            }
+        }
+    }
+
     //mode = 1 -> Date plus offset; mode = 2 -> Date minus offset
     private LocalDate dateOffset(int mode){
         System.out.println("Date with offset");
@@ -73,8 +131,8 @@ public class DateTimeModeController implements ControllerInterface {
         System.out.print("Date: ");
         LocalDate start = Input.lerDate();
 
-        if (mode == 1) UTDCView.unitiesOptions(2);
-        else UTDCView.unitiesOptions(3);
+        if (mode == 1) UTDCView.unitiesOptionsLocalDate(2);
+        else UTDCView.unitiesOptionsLocalDate(3);
 
         String options = Input.lerString();
         String[] unities = options.split("\\s+");

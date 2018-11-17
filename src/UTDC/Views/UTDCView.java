@@ -50,7 +50,7 @@ public class UTDCView {
     }
 
     //option = 1 -> between two dates; option = 2 -> add offset; option = 3 -> subtract offset
-    public static void unitiesOptions(int option){
+    public static void unitiesOptionsLocalDate(int option){
         if (option == 1) System.out.println("The following unities are available to measure the time between two dates:");
         else if (option == 2) System.out.println("The following unities are available to add offset to a date:");
         else if (option == 3) System.out.println("The following unities are available to subtract offset to a date:");
@@ -59,6 +59,29 @@ public class UTDCView {
         System.out.println("3 - Days");
         System.out.println("4 - Weeks");
         System.out.print("Please insert separated by spaces the unities you want to calculate: ");
+    }
+
+    //option = 1 -> between two dates; option = 2 -> add offset; option = 3 -> subtract offset
+    public static void unitiesOptionsLocalDateTime(int option){
+        if (option == 1) System.out.println("The following unities are available to measure the time between two dates:");
+        else if (option == 2) System.out.println("The following unities are available to add offset to a date:");
+        else if (option == 3) System.out.println("The following unities are available to subtract offset to a date:");
+        System.out.println("1 - Years");
+        System.out.println("2 - Months");
+        System.out.println("3 - Days");
+        System.out.println("4 - Weeks");
+        System.out.println("5 - Hours");
+        System.out.println("6 - Minutes");
+        System.out.println("7 - Seconds");
+        System.out.println("8 - Nanoseconds");
+        System.out.print("Please insert separated by spaces the unities you want to calculate: ");
+    }
+
+    public static void optionsDates(){
+        System.out.println("Do you want to work with:");
+        System.out.println("1 - <Year>-<Month>-<Day>");
+        System.out.println("2 - <Year>-<Month>-<Day>T<Hours>:<Minutes>:<Seconds>.Nanoseconds");
+        System.out.print("Option: ");
     }
 
 }
