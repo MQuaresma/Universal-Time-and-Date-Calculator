@@ -68,6 +68,25 @@ public class Input {
     }
     return dt;
 }
+
+ public static long lerLong() {
+     Scanner input = new Scanner(in);
+     boolean ok = false;
+     long i = 0;
+     while(!ok) {
+        try {
+           i = input.nextLong();
+           ok = true;
+        }
+       catch(InputMismatchException e)
+       { out.println("Long Invalido");
+         out.print("Novo valor: ");
+         input.nextLine();
+       }
+     }
+     //input.close();
+     return i;
+ }
     
  public static String lerString() {
      Scanner input = new Scanner(in);
