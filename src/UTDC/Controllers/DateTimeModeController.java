@@ -18,7 +18,7 @@ public class DateTimeModeController implements ControllerInterface {
                     System.out.println(durationBetweenDates());
                     break;
                 case "A":
-                    // TODO
+                    System.out.println(datePlusAmount());
                     break;
                 case "S":
                     // TODO
@@ -41,5 +41,13 @@ public class DateTimeModeController implements ControllerInterface {
         // TODO: allow for different time units of measure
         long dt = DAYS.between(start, end);
         return dt;
+    }
+
+    private LocalDate datePlusAmount(){
+        System.out.println("Date with offset");
+        System.out.println("Date format: Year-Month-Day");
+        LocalDate start = Input.lerDate();
+        long offset = Input.lerInt();
+        return start.plusDays(offset);
     }
 }
