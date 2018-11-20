@@ -1,7 +1,10 @@
 package UTDC.Views;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Arrays;
+
+import java.time.ZoneId;
 
 public class UTDCView {
 
@@ -45,6 +48,14 @@ public class UTDCView {
         Menu dateTimeMenu = new Menu(linhas2, "Date/Time Calculator Mode");
         menusUTDC.addMenu(2, dateTimeMenu);
 
+        Opcao op31, op32, op33;
+        op31 = new Opcao("Show Time Zones .................", "S");
+        op32 = new Opcao("Calculate new Time Zone..........", "C");
+        op33 = new Opcao("Main menu .......................", "M");
+        List<Opcao> linhas3 = Arrays.asList(op31, op32, op33);
+        Menu timeZoneMenu = new Menu(linhas3, "Timezone Calculator Mode");
+        menusUTDC.addMenu(4, timeZoneMenu);
+
         //return menu
         return menusUTDC;
     }
@@ -84,4 +95,10 @@ public class UTDCView {
         System.out.print("Option: ");
     }
 
+    public static void printTimeZones() {
+        System.out.println("All Time Zones");
+        for (String z : ZoneId.getAvailableZoneIds()){
+                System.out.println(z);
+        }
+    }
 }
