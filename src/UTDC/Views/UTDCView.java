@@ -80,10 +80,18 @@ public class UTDCView {
     }
 
     public static void printTimeZones() {
-        System.out.println("All Time Zones");
+        System.out.println("All available Time Zones:");
         for (String z : ZoneId.getAvailableZoneIds()){
                 System.out.println(z);
         }
+    }
+
+    public static void optionsTimeZone(){
+        System.out.println("What type of operation you want to do:");
+        System.out.println("1 - Your time zone     -->   Custom time zone");
+        System.out.println("2 - Custom time zone   -->   Your time zone");
+        System.out.println("3 - Custom time zone   -->   Custom time zone");
+        System.out.print("Option: ");
     }
 
     /*
