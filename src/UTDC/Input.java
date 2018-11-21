@@ -21,6 +21,7 @@ import static java.lang.System.in;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -45,7 +46,7 @@ public class Input {
              ok = true;
          }catch(InputMismatchException | DateTimeParseException e){
              e.printStackTrace();
-             out.println("Data Inválida");
+             out.println("Invalid date! Try again:");
          }
      }
      return dt;
@@ -63,11 +64,29 @@ public class Input {
             dt = LocalDateTime.parse(date_txt, formatter);
             ok = true;
         }catch(InputMismatchException | DateTimeParseException e){
-            out.println("Data Inválida");
+            out.println("Invalid date! Try again:");
         }
     }
     return dt;
 }
+
+ public static LocalTime lerTime(){
+    Scanner input = new Scanner(in);
+    boolean ok = false;
+    String date_txt;
+    LocalTime lt = null;
+    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_TIME;
+    while(!ok){
+        try{
+            date_txt = input.nextLine();
+            lt = LocalTime.parse(date_txt, formatter);
+            ok = true;
+        }catch(InputMismatchException | DateTimeParseException e){
+            out.println("Invalid time! Try again:");
+        }
+    }
+    return lt;
+ }
 
  public static long lerLong() {
      Scanner input = new Scanner(in);
