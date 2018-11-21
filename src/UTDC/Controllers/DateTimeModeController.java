@@ -7,6 +7,10 @@ import UTDC.Views.UTDCView;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.time.temporal.ChronoUnit.*;
 
@@ -35,6 +39,92 @@ public class DateTimeModeController implements ControllerInterface {
         } while (!opcao.equals("M"));
     }
 
+    public void durationBetweenDates(){
+        System.out.println("Duration between dates");
+        UTDCView.optionsDates();
+        String option = Input.lerString();
+        Temporal start, end;
+        switch (option){
+            case "1":
+                System.out.print("Initial date: ");
+                start = Input.lerDate();
+                System.out.print("End date: ");
+                end = Input.lerDate();
+                dbd_function(start,end);
+                break;
+            case "2":
+                System.out.print("Initial date: ");
+                start = Input.lerDateTime();
+                System.out.print("End date: ");
+                end = Input.lerDateTime();
+                dbd_function(start,end);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void dbd_function(Temporal start, Temporal end){
+        List<ChronoUnit> unities = new ArrayList<>();
+        for (ChronoUnit unit : ChronoUnit.values()) {
+            if (start.isSupported(unit)) unities.add(unit);
+        }
+        System.out.println("The following unities are available to measure the time between two dates:");
+        UTDCView.imprimeUnidades(unities);
+
+        String options = Input.lerString();
+        String[] user_unities = options.split("\\s+");
+
+        ChronoUnit cu;
+        for (String option : user_unities){
+            cu = unities.get(Integer.parseInt(option) - 1);
+            System.out.println(cu.between(start,end) + " " + cu.toString());
+        }
+    }
+
+    //mode = 1 -> Date plus offset; mode = 2 -> Date minus offset
+    private Temporal dateOffset(int mode){
+        System.out.println("Date with offset");
+        UTDCView.optionsDates();
+        String option = Input.lerString();
+        Temporal t = null;
+        switch (option){
+            case "1":
+                System.out.print("Insert date: ");
+                t = Input.lerDate();
+                break;
+            case "2":
+                System.out.print("Insert date: ");
+                t = Input.lerDateTime();
+                break;
+            default:
+                break;
+        }
+        List<ChronoUnit> unities = new ArrayList<>();
+        for (ChronoUnit unit : ChronoUnit.values()) {
+            if (t.isSupported(unit)) unities.add(unit);
+        }
+        if (mode == 1) System.out.println("The following unities are available to add offset to a date:");
+        else if (mode == 2) System.out.println("The following unities are available to subtract offset to a date:");
+        UTDCView.imprimeUnidades(unities);
+
+        String options = Input.lerString();
+        String[] user_unities = options.split("\\s+");
+
+        ChronoUnit cu;
+        long l;
+        for (String user_option : user_unities){
+            cu = unities.get(Integer.parseInt(user_option) - 1);
+            if (mode == 1) System.out.print(cu + " to add: ");
+            else System.out.print(cu + " to subtract: ");
+            l = Input.lerLong();
+            if (mode ==1) t = t.plus(l,cu);
+            else t = t.minus(l,cu);
+        }
+        return t;
+    }
+
+    /*
     public void durationBetweenDates(){
         System.out.println("Duration between dates");
         UTDCView.optionsDates();
@@ -167,4 +257,5 @@ public class DateTimeModeController implements ControllerInterface {
         if (mode == 1) return start.plusYears(years).plusMonths(months).plusDays(days).plusWeeks(weeks);
         else return start.minusYears(years).minusMonths(months).minusDays(days).minusWeeks(weeks);
     }
+    */
 }
