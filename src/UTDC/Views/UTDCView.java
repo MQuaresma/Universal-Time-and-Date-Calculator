@@ -1,12 +1,11 @@
 package UTDC.Views;
 
+import UTDC.Models.Opcao;
+
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Arrays;
-
-import java.time.ZoneId;
 
 public class UTDCView {
 
@@ -62,65 +61,31 @@ public class UTDCView {
         return menusUTDC;
     }
 
-    public static void imprimeUnidades(List<ChronoUnit> unities){
-        int i = 1;
-        for (ChronoUnit unit : unities){
-            System.out.println(i + " - " + unit.toString());
-            i++;
+    public static Menu optionsDates(){
+        Opcao op1, op2, op3;
+        op1 = new Opcao("<Year>-<Month>-<Day>", "1");
+        op2 = new Opcao("<Year>-<Month>-<Day>T<Hours>:<Minutes>:<Seconds>.<Nanoseconds>", "2");
+        op3 = new Opcao("<Hours>:<Minutes>:<Seconds>.<Nanoseconds>", "3");
+        List<Opcao> ops = Arrays.asList(op1, op2, op3);
+        Menu menu = new Menu(ops, "Do you want to work with:");
+        return menu;
+    }
+
+    public static Menu optionsTimeZone(){
+        Opcao op1, op2, op3;
+        op1 = new Opcao("Your time zone --> Custom time zone ...", "1");
+        op2 = new Opcao("Custom time zone --> Your time zone ...", "2");
+        op3 = new Opcao("Custom time zone --> Custom time zone .", "3");
+        List<Opcao> ops = Arrays.asList(op1, op2, op3);
+        Menu timeZoneConvMenu = new Menu(ops, "What type of operation you want to do");
+        return timeZoneConvMenu;
+    }
+
+
+    public static void printColletion(String header, Collection<String> values){
+        System.out.println(header);
+        for(String val: values){
+            System.out.println(val);
         }
-        System.out.print("Please insert separated by spaces the unities you want to calculate: ");
     }
-
-    public static void optionsDates(){
-        System.out.println("Do you want to work with:");
-        System.out.println("1 - <Year>-<Month>-<Day>");
-        System.out.println("2 - <Year>-<Month>-<Day>T<Hours>:<Minutes>:<Seconds>.<Nanoseconds>");
-        System.out.println("3 - <Hours>:<Minutes>:<Seconds>.<Nanoseconds>");
-        System.out.print("Option: ");
-    }
-
-    public static void printTimeZones() {
-        System.out.println("All available Time Zones:");
-        for (String z : ZoneId.getAvailableZoneIds()){
-                System.out.println(z);
-        }
-    }
-
-    public static void optionsTimeZone(){
-        System.out.println("What type of operation you want to do:");
-        System.out.println("1 - Your time zone     -->   Custom time zone");
-        System.out.println("2 - Custom time zone   -->   Your time zone");
-        System.out.println("3 - Custom time zone   -->   Custom time zone");
-        System.out.print("Option: ");
-    }
-
-    /*
-    //option = 1 -> between two dates; option = 2 -> add offset; option = 3 -> subtract offset
-    public static void unitiesOptionsLocalDate(int option){
-        if (option == 1) System.out.println("The following unities are available to measure the time between two dates:");
-        else if (option == 2) System.out.println("The following unities are available to add offset to a date:");
-        else if (option == 3) System.out.println("The following unities are available to subtract offset to a date:");
-        System.out.println("1 - Years");
-        System.out.println("2 - Months");
-        System.out.println("3 - Days");
-        System.out.println("4 - Weeks");
-        System.out.print("Please insert separated by spaces the unities you want to calculate: ");
-    }
-
-    //option = 1 -> between two dates; option = 2 -> add offset; option = 3 -> subtract offset
-    public static void unitiesOptionsLocalDateTime(int option){
-        if (option == 1) System.out.println("The following unities are available to measure the time between two dates:");
-        else if (option == 2) System.out.println("The following unities are available to add offset to a date:");
-        else if (option == 3) System.out.println("The following unities are available to subtract offset to a date:");
-        System.out.println("1 - Years");
-        System.out.println("2 - Months");
-        System.out.println("3 - Days");
-        System.out.println("4 - Weeks");
-        System.out.println("5 - Hours");
-        System.out.println("6 - Minutes");
-        System.out.println("7 - Seconds");
-        System.out.println("8 - Nanoseconds");
-        System.out.print("Please insert separated by spaces the unities you want to calculate: ");
-    }
-    */
 }

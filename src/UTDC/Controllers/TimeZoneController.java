@@ -21,7 +21,8 @@ public class TimeZoneController implements ControllerInterface {
             opcao = Input.lerString().toUpperCase();
             switch (opcao) {
                 case "S":
-                    UTDCView.printTimeZones();
+                    Set<String> timezones = ZoneId.getAvailableZoneIds();
+                    UTDCView.printColletion("All available Time Zones:", timezones);
                     break;
                 case "C":
                     calculateTimezones();
@@ -36,27 +37,26 @@ public class TimeZoneController implements ControllerInterface {
     }
 
     private void calculateTimezones(){
-        UTDCView.optionsTimeZone();
+        UTDCView.printColletion("All available Time Zones", ZoneId.getAvailableZoneIds());
         String option = Input.lerString().toUpperCase();
         ZoneId zone1 = null;
         ZoneId zone2 = null;
-        String zone;
         switch (option) {
             case "1":
                 zone1 = ZonedDateTime.now().getZone();
                 System.out.print("Final time zone: ");
-                zone2 = readTimezone();
+                zone2 = this.readTimezone();
                 break;
             case "2":
                 zone2 = ZonedDateTime.now().getZone();
                 System.out.print("Initial time zone: ");
-                zone1 = readTimezone();
+                zone1 = this.readTimezone();
                 break;
             case "3":
                 System.out.print("Initial time zone: ");
-                zone1 = readTimezone();
+                zone1 = this.readTimezone();
                 System.out.print("Final time zone: ");
-                zone2 = readTimezone();
+                zone2 = this.readTimezone();
                 break;
             default:
                 System.out.println("Invalid option!");
@@ -71,6 +71,7 @@ public class TimeZoneController implements ControllerInterface {
 
     private ZoneId readTimezone(){
         String zone;
+
         do {
             zone = Input.lerString();
             if (ZoneId.getAvailableZoneIds().contains(zone)) break;
@@ -78,25 +79,4 @@ public class TimeZoneController implements ControllerInterface {
         }while (true);
         return ZoneId.of(zone);
     }
-
-    /*
-    private void calculateTimezones() {
-        Set<String> zones ;
-        zones= ZoneId.getAvailableZoneIds();
-        LocalDateTime date;
-        String zone;
-        System.out.print("Initial date: <Year>-<Month>-<Day>T<Hours>:<Minutes>:<Seconds>.Nanoseconds ");
-        date = Input.lerDateTime();
-
-        System.out.print("Final Time Zone: ");
-        do {
-            zone = Input.lerString();
-            if (zones.contains(zone)) break;
-            else System.out.print("TimeZone inesxistente!\nFinal Time Zone: ");
-        }while (true);
-        ZonedDateTime zdtZone2 = ZonedDateTime.of(date, ZoneId.of(zone));
-        System.out.println("New Date: "+zdtZone2);
-    }
-    */
-
 }

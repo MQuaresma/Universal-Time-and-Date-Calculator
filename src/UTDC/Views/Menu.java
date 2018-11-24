@@ -1,5 +1,7 @@
 package UTDC.Views;
 
+import UTDC.Models.Opcao;
+
 import java.util.List;
 
 public class Menu {

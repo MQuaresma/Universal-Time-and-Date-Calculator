@@ -1,1 +1,1 @@
-# Universal-TIme-and-Date-Calculator
+# Universal-Time-and-Date-Calculator
