@@ -38,15 +38,16 @@ public class Input {
      boolean ok = false;
      String date_txt;
      LocalDate dt = null;
-     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
      while(!ok){
          try{
+             out.println("Expected format: dd-MM-yyyy");
              date_txt = input.nextLine();
              dt = LocalDate.parse(date_txt, formatter);
              ok = true;
          }catch(InputMismatchException | DateTimeParseException e){
              e.printStackTrace();
-             out.println("Invalid date! Try again:");
+             out.println("Invalid date, try again!");
          }
      }
      return dt;
@@ -57,14 +58,15 @@ public class Input {
     boolean ok = false;
     String date_txt;
     LocalDateTime dt = null;
-    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     while(!ok){
         try{
+            out.println("Expected format: dd-MM-yyyy HH:mm:ss");
             date_txt = input.nextLine();
             dt = LocalDateTime.parse(date_txt, formatter);
             ok = true;
         }catch(InputMismatchException | DateTimeParseException e){
-            out.println("Invalid date! Try again:");
+            out.println("Invalid date, try again!");
         }
     }
     return dt;
@@ -75,14 +77,15 @@ public class Input {
     boolean ok = false;
     String date_txt;
     LocalTime lt = null;
-    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_TIME;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     while(!ok){
         try{
+            out.println("Expected format: HH:mm:ss");
             date_txt = input.nextLine();
             lt = LocalTime.parse(date_txt, formatter);
             ok = true;
         }catch(InputMismatchException | DateTimeParseException e){
-            out.println("Invalid time! Try again:");
+            out.println("Invalid time, try again!");
         }
     }
     return lt;

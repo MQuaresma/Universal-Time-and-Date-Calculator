@@ -39,55 +39,40 @@ public class DateTimeModeController implements ControllerInterface {
         } while (!opcao.equals("M"));
     }
 
-    public void durationBetweenDates(){
+    private void durationBetweenDates(){
         System.out.println("Duration between dates");
-        UTDCView.optionsDates();
+        Menu date_menu = UTDCView.dateFormats();
+        date_menu.show();
         String option = Input.lerString();
         Temporal start, end;
         switch (option){
             case "1":
-                System.out.print("Initial date: ");
+                System.out.print("Initial date ");
                 start = Input.lerDate();
-                System.out.print("End date: ");
+                System.out.print("End date ");
                 end = Input.lerDate();
-                dbd_function(start,end,1);
+                this.dbd_function(start,end);
                 break;
             case "2":
                 System.out.print("Initial date: ");
                 start = Input.lerDateTime();
                 System.out.print("End date: ");
                 end = Input.lerDateTime();
-                dbd_function(start,end,1);
+                this.dbd_function(start,end);
                 break;
             case "3":
                 System.out.print("Initial time: ");
                 start = Input.lerTime();
                 System.out.print("End time: ");
                 end = Input.lerTime();
-                dbd_function(start,end,2);
+                this.dbd_function(start,end);
             default:
                 break;
         }
     }
 
-    // mode = 1 -> Difference between dates; mode = 2 -> Difference between times
-    public void dbd_function(Temporal start, Temporal end, int mode){
-        List<ChronoUnit> units = new ArrayList<>();
-        List<String> units_s = new ArrayList<>();
-        String prefix = "The following units are available to measure the difference between two";
-        int i = 1;
-        for (ChronoUnit unit : ChronoUnit.values()) {
-            if (start.isSupported(unit)){
-                units.add(unit);
-                units_s.add(i + "-" + unit.toString());
-                i ++;
-            }
-        }
-
-        if (mode == 1) prefix = prefix + " dates:";
-        else prefix = prefix + " times:";
-        UTDCView.printColletion(prefix, units_s);
-
+    private void dbd_function(Temporal start, Temporal end){
+        List<ChronoUnit> units = this.available_chronounits(start);
         String options = Input.lerString();
         String[] user_units = options.split("\\s+");
 
@@ -98,10 +83,31 @@ public class DateTimeModeController implements ControllerInterface {
         }
     }
 
+    //List available ChronoUnits for a give Temporal object
+    private List<ChronoUnit> available_chronounits(Temporal temp){
+        List<ChronoUnit> units = new ArrayList<>();
+        List<String> units_s = new ArrayList<>();
+        String header = "The following units can be used to set/get the time difference.\n" +
+                "Enter the desired ones separated by spaces";
+        int i = 1;
+        for (ChronoUnit unit : ChronoUnit.values()) {
+            if (temp.isSupported(unit)){
+                units.add(unit);
+                units_s.add(i + "-" + unit.toString());
+                i ++;
+            }
+        }
+
+        UTDCView.printColletion(header, units_s);
+
+        return units;
+    }
+
     //mode = 1 -> Date plus offset; mode = 2 -> Date minus offset
     private Temporal dateOffset(int mode){
         System.out.println("Date/Time with offset");
-        UTDCView.optionsDates();
+        Menu date_menu = UTDCView.dateFormats();
+        date_menu.show();
         String option = Input.lerString();
         Temporal t = null;
         switch (option){
@@ -121,24 +127,7 @@ public class DateTimeModeController implements ControllerInterface {
                 break;
         }
 
-        List<ChronoUnit> units = new ArrayList<>();
-        List<String> units_s = new ArrayList<>();
-        String prefix = "The following units are available to ";
-        int i = 1;
-
-        for(ChronoUnit unit : ChronoUnit.values()) {
-            if (t.isSupported(unit)){
-                units.add(unit);
-                units_s.add(i + "-" + unit.toString());
-                i ++;
-            }
-        }
-
-        if (option.equals("3")) prefix = prefix + "add offset to a time:";
-        else if (mode == 1) prefix = prefix + "add offset to a date:";
-        else if (mode == 2) prefix = prefix + "subtract offset to a date:";
-        UTDCView.printColletion(prefix, units_s);
-
+        List<ChronoUnit> units = this.available_chronounits(t);
         String options = Input.lerString();
         String[] user_units = options.split("\\s+");
 
@@ -149,8 +138,7 @@ public class DateTimeModeController implements ControllerInterface {
             if (mode == 1) System.out.print(cu + " to add: ");
             else System.out.print(cu + " to subtract: ");
             l = Input.lerLong();
-            if (mode ==1) t = t.plus(l,cu);
-            else t = t.minus(l,cu);
+            t = t.plus((mode==1 ? 1 : -1)*l, cu);
         }
         return t;
     }

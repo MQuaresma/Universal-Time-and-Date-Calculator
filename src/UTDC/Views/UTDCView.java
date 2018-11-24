@@ -49,25 +49,36 @@ public class UTDCView {
         Menu dateTimeMenu = new Menu(linhas2, "Date/Time Calculator Mode");
         menusUTDC.addMenu(2, dateTimeMenu);
 
-        Opcao op31, op32, op33;
-        op31 = new Opcao("Show Time Zones .......................", "S");
-        op32 = new Opcao("Calculate new Time Zone................", "C");
-        op33 = new Opcao("Main menu .............................", "M");
-        List<Opcao> linhas3 = Arrays.asList(op31, op32, op33);
-        Menu timeZoneMenu = new Menu(linhas3, "Timezone Calculator Mode");
+        Opcao op31, op32, op33, op34, op35;
+        op31 = new Opcao("Check appointments ....................", "C");
+        op32 = new Opcao("Add appointment .......................", "A");
+        op33 = new Opcao("Remove appointment ....................", "R");
+        op34 = new Opcao("Change appointment ....................", "M");
+        op35 = new Opcao("Appointment details ...................", "D");
+        List<Opcao> linhas3 = Arrays.asList(op31, op32, op33, op34, op35);
+        Menu slotMenu = new Menu(linhas3, "Slot Management Mode");
+        menusUTDC.addMenu(3, slotMenu);
+
+
+        Opcao op41, op42, op43;
+        op41 = new Opcao("Show Time Zones .......................", "S");
+        op42 = new Opcao("Calculate new Time Zone................", "C");
+        op43 = new Opcao("Main menu .............................", "M");
+        List<Opcao> linhas4 = Arrays.asList(op41, op42, op43);
+        Menu timeZoneMenu = new Menu(linhas4, "Timezone Calculator Mode");
         menusUTDC.addMenu(4, timeZoneMenu);
 
         //return menu
         return menusUTDC;
     }
 
-    public static Menu optionsDates(){
+    public static Menu dateFormats(){
         Opcao op1, op2, op3;
-        op1 = new Opcao("<Year>-<Month>-<Day>", "1");
-        op2 = new Opcao("<Year>-<Month>-<Day>T<Hours>:<Minutes>:<Seconds>.<Nanoseconds>", "2");
-        op3 = new Opcao("<Hours>:<Minutes>:<Seconds>.<Nanoseconds>", "3");
+        op1 = new Opcao("dd-MM-yyyy .............................", "1");
+        op2 = new Opcao("dd-MM-yyyy HH:mm:ss ....................", "2");
+        op3 = new Opcao("HH:mm:ss ...............................", "3");
         List<Opcao> ops = Arrays.asList(op1, op2, op3);
-        Menu menu = new Menu(ops, "Do you want to work with:");
+        Menu menu = new Menu(ops, "Available date/time formats");
         return menu;
     }
 
