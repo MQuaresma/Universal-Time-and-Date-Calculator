@@ -41,7 +41,7 @@ public class Input {
      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
      while(!ok){
          try{
-             out.println("Expected format: dd-MM-yyyy");
+             out.println("(Expected format: dd-MM-yyyy)");
              date_txt = input.nextLine();
              dt = LocalDate.parse(date_txt, formatter);
              ok = true;
@@ -61,7 +61,7 @@ public class Input {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     while(!ok){
         try{
-            out.println("Expected format: dd-MM-yyyy HH:mm:ss");
+            out.println("(Expected format: dd-MM-yyyy HH:mm:ss)");
             date_txt = input.nextLine();
             dt = LocalDateTime.parse(date_txt, formatter);
             ok = true;
@@ -80,7 +80,7 @@ public class Input {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     while(!ok){
         try{
-            out.println("Expected format: HH:mm:ss");
+            out.println("(Expected format: HH:mm:ss)");
             date_txt = input.nextLine();
             lt = LocalTime.parse(date_txt, formatter);
             ok = true;

@@ -8,6 +8,7 @@ import UTDC.Views.UTDCView;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class UTDCApp {
 
         control.startFlow();
 
-        System.out.println("End of session >> " + java.time.LocalDateTime.now());
+        System.out.println("End of session >> " + java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
 
         System.exit(0);
     }

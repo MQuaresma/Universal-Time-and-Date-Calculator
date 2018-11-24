@@ -4,12 +4,9 @@ import UTDC.Input;
 import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.List;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.Set;
 
 public class TimeZoneController implements ControllerInterface {
@@ -37,7 +34,8 @@ public class TimeZoneController implements ControllerInterface {
     }
 
     private void calculateTimezones(){
-        UTDCView.printColletion("All available Time Zones", ZoneId.getAvailableZoneIds());
+        Menu tz = UTDCView.optionsTimeZone();
+        tz.show();
         String option = Input.lerString().toUpperCase();
         ZoneId zone1 = null;
         ZoneId zone2 = null;
@@ -62,11 +60,14 @@ public class TimeZoneController implements ControllerInterface {
                 System.out.println("Invalid option!");
                 break;
         }
-        System.out.println("Date format: <Year>-<Month>-<Day>T<Hours>:<Minutes>:<Seconds>.Nanoseconds");
         System.out.print("Insert date in initial zone: ");
         LocalDateTime ldt = Input.lerDateTime();
         ZonedDateTime zdt = ZonedDateTime.of(ldt,zone1).withZoneSameInstant(zone2);
-        System.out.println(ldt + " in " + zone1.toString() + " = " + zdt.toLocalDateTime() + " in " + zone2.toString());
+
+        String time1 = ldt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        String time2 = (zdt.toLocalDateTime()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+
+        System.out.println(time1 + " in " + zone1.toString() + " = " + time2 + " in " + zone2.toString());
     }
 
     private ZoneId readTimezone(){
@@ -79,4 +80,5 @@ public class TimeZoneController implements ControllerInterface {
         }while (true);
         return ZoneId.of(zone);
     }
+
 }

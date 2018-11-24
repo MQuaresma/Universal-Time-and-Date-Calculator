@@ -6,13 +6,12 @@ import UTDC.Views.UTDCView;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.time.temporal.ChronoUnit.*;
 
 public class DateTimeModeController implements ControllerInterface {
     public void startFlow(Menu menu){
@@ -25,10 +24,10 @@ public class DateTimeModeController implements ControllerInterface {
                     durationBetweenDates();
                     break;
                 case "A":
-                    System.out.println("Result: " + dateOffset(1));
+                    System.out.println("Result: " + timeToString(dateOffset(1)));
                     break;
                 case "S":
-                    System.out.println("Result: " + dateOffset(2));
+                    System.out.println("Result: " + timeToString(dateOffset(2)));
                     break;
                 case "M":
                     break;
@@ -47,9 +46,9 @@ public class DateTimeModeController implements ControllerInterface {
         Temporal start, end;
         switch (option){
             case "1":
-                System.out.print("Initial date ");
+                System.out.print("Initial date: ");
                 start = Input.lerDate();
-                System.out.print("End date ");
+                System.out.print("End date: ");
                 end = Input.lerDate();
                 this.dbd_function(start,end);
                 break;
@@ -142,4 +141,11 @@ public class DateTimeModeController implements ControllerInterface {
         }
         return t;
     }
+
+    static String timeToString(Temporal t){
+        if (t instanceof LocalDateTime) return ((LocalDateTime) t).format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        else if (t instanceof LocalDate) return ((LocalDate) t).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        else return ((LocalTime) t).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    }
+
 }

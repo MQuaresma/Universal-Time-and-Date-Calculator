@@ -84,9 +84,9 @@ public class UTDCView {
 
     public static Menu optionsTimeZone(){
         Opcao op1, op2, op3;
-        op1 = new Opcao("Your time zone --> Custom time zone ...", "1");
-        op2 = new Opcao("Custom time zone --> Your time zone ...", "2");
-        op3 = new Opcao("Custom time zone --> Custom time zone .", "3");
+        op1 = new Opcao("Your time zone    -->  Custom time zone ...", "1");
+        op2 = new Opcao("Custom time zone  -->  Your time zone .....", "2");
+        op3 = new Opcao("Custom time zone  -->  Custom time zone ...", "3");
         List<Opcao> ops = Arrays.asList(op1, op2, op3);
         Menu timeZoneConvMenu = new Menu(ops, "What type of operation you want to do");
         return timeZoneConvMenu;
