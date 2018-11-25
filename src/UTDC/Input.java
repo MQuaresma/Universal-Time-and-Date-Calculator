@@ -46,7 +46,6 @@ public class Input {
              dt = LocalDate.parse(date_txt, formatter);
              ok = true;
          }catch(InputMismatchException | DateTimeParseException e){
-             e.printStackTrace();
              out.println("Invalid date, try again!");
          }
      }

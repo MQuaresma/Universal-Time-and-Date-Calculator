@@ -16,7 +16,9 @@ public class UTDCController {
     private ControllerInterface dateTimeController;
     private ControllerInterface managementController;
     private ControllerInterface timeZoneController;
-
+    private static final String local_date_format = "dd-MM-yyyy";
+    private static final String local_time_date_format = "dd-MM-yyyy HH:mm:ss";
+    private static final String local_time_format = "HH:mm:ss";
 
     public UTDCController(){}
 
