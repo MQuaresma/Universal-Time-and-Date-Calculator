@@ -60,11 +60,12 @@ public class UTDCView {
         menusUTDC.addMenu(3, slotMenu);
 
 
-        Opcao op41, op42, op43;
+        Opcao op41, op42, op43, op44;
         op41 = new Opcao("Show Time Zones .......................", "S");
-        op42 = new Opcao("Calculate new Time Zone................", "C");
-        op43 = new Opcao("Main menu .............................", "M");
-        List<Opcao> linhas4 = Arrays.asList(op41, op42, op43);
+        op42 = new Opcao("Calculate new Time Zone ...............", "C");
+        op43 = new Opcao("Time-Date at specific Time Zone .......", "T");
+        op44 = new Opcao("Main menu .............................", "M");
+        List<Opcao> linhas4 = Arrays.asList(op41, op42, op43, op44);
         Menu timeZoneMenu = new Menu(linhas4, "Timezone Calculator Mode");
         menusUTDC.addMenu(4, timeZoneMenu);
 
@@ -88,10 +89,14 @@ public class UTDCView {
         op2 = new Opcao("Custom time zone  -->  Your time zone .....", "2");
         op3 = new Opcao("Custom time zone  -->  Custom time zone ...", "3");
         List<Opcao> ops = Arrays.asList(op1, op2, op3);
-        Menu timeZoneConvMenu = new Menu(ops, "What type of operation you want to do");
+        Menu timeZoneConvMenu = new Menu(ops, "What type of conversion do you want to perform?");
         return timeZoneConvMenu;
     }
 
+    public static void timeZoneTime(){
+        System.out.println("Which TimeZone would you like to check the time of?");
+        System.out.println("(Format hint = Continent/City)");
+    }
 
     public static void printColletion(String header, Collection<String> values){
         System.out.println(header);

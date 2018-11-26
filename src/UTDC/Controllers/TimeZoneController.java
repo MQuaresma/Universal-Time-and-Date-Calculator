@@ -22,7 +22,10 @@ public class TimeZoneController implements ControllerInterface {
                     UTDCView.printColletion("All available Time Zones:", timezones);
                     break;
                 case "C":
-                    calculateTimezones();
+                    this.calculateTimezones();
+                    break;
+                case "T":
+                    this.checkTimeZoneTime();
                     break;
                 case "M":
                     break;
@@ -64,21 +67,27 @@ public class TimeZoneController implements ControllerInterface {
         LocalDateTime ldt = Input.lerDateTime();
         ZonedDateTime zdt = ZonedDateTime.of(ldt,zone1).withZoneSameInstant(zone2);
 
-        String time1 = ldt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-        String time2 = (zdt.toLocalDateTime()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        String time1 = ldt.format(DateTimeFormatter.ofPattern(UTDCController.local_time_date_format));
+        String time2 = (zdt.toLocalDateTime()).format(DateTimeFormatter.ofPattern(UTDCController.local_time_date_format));
 
         System.out.println(time1 + " in " + zone1.toString() + " = " + time2 + " in " + zone2.toString());
     }
 
     private ZoneId readTimezone(){
         String zone;
-
         do {
             zone = Input.lerString();
             if (ZoneId.getAvailableZoneIds().contains(zone)) break;
             else System.out.print("Invalid time zone!\nTry again: ");
         }while (true);
         return ZoneId.of(zone);
+    }
+
+    private void checkTimeZoneTime(){
+        UTDCView.timeZoneTime();
+        ZoneId z_id = readTimezone();
+        String zone_time = LocalDateTime.now(z_id).format(DateTimeFormatter.ofPattern(UTDCController.local_time_date_format));
+        System.out.println("Current date-time at " + z_id.toString() + " : " + zone_time);
     }
 
 }
