@@ -7,8 +7,12 @@ import UTDC.Views.UTDCView;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ManagementController implements ControllerInterface {
     private UTDCModel model;
@@ -72,7 +76,7 @@ public class ManagementController implements ControllerInterface {
                 UTDCView.printColletion("*** Events in given date ***",events_date );
                 break;
             case "U":
-                //TODO: events in less than x amount of time
+                this.listEventsInUpcomingTimeframe();
                 break;
             case "P":
                 LocalDateTime before = LocalDateTime.now();
@@ -82,5 +86,40 @@ public class ManagementController implements ControllerInterface {
             default:
                 break;
         }
+    }
+
+    private void listEventsInUpcomingTimeframe(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime frame_end = now;
+        List<ChronoUnit> available = new ArrayList<>();
+        List<String> available_s = new ArrayList<>();
+        ChronoUnit cu;
+        long amount;
+        int i = 1;
+
+        for(ChronoUnit c : ChronoUnit.values()){
+            if(now.isSupported(c)) {
+                available_s.add(i + "-" + c.toString());
+                available.add(c);
+                i ++;
+            }
+        }
+
+        String prompt = "Which units would you like to use? (enter each unit separated by a space)";
+        UTDCView.printColletion(prompt, available_s);
+        String[] units = Input.lerString().split("\\s+");
+        for(String code:units){
+            try{
+                cu = available.get(Integer.parseInt(code) - 1);
+                System.out.print(cu + ":");
+                amount = Input.lerLong();
+                frame_end = frame_end.plus(amount, cu);
+            }catch(IndexOutOfBoundsException e){
+                System.out.println(code + " is not a valid option!");
+            }
+        }
+
+        List<String> upcoming_events = this.model.getEventsTimeInterval(now, frame_end);
+        UTDCView.printColletion("*** Upcoming Events ***", upcoming_events);
     }
 }

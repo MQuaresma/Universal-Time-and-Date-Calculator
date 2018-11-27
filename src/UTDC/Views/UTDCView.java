@@ -4,10 +4,7 @@ import UTDC.Models.Opcao;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.List;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 
 public class UTDCView {
 
@@ -118,5 +115,16 @@ public class UTDCView {
         for(String val: values){
             System.out.println(val);
         }
+    }
+
+    public static Menu buildMenu(String title, Map<String, String> options){
+        List<Opcao> ops = new ArrayList<Opcao>();
+
+        for(String op: options.keySet()){
+            Opcao new_op = new Opcao(options.get(op),op);
+            ops.add(new_op);
+        }
+
+        return new Menu(ops, title);
     }
 }
