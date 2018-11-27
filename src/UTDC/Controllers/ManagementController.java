@@ -1,9 +1,12 @@
 package UTDC.Controllers;
 
 import UTDC.Input;
+import UTDC.Models.EventModel;
 import UTDC.Models.UTDCModel;
 import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
+
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -29,6 +32,7 @@ public class ManagementController implements ControllerInterface {
                     this.checkEvents();
                     break;
                 case "N":
+                    this.addEvent();
                     break;
                 case "R":
                     this.removeEvent();
@@ -117,6 +121,54 @@ public class ManagementController implements ControllerInterface {
 
         List<String> upcoming_events = this.model.getEventsTimeInterval(now, frame_end);
         UTDCView.printColletion("*** Upcoming Events ***", upcoming_events);
+    }
+
+    private void addEvent(){
+        System.out.print("Insert a title for the event: ");
+        String title = Input.lerString();
+        System.out.print("Insert a description for the event: ");
+        String description = Input.lerString();
+        System.out.print("Insert the local where the event will take place: ");
+        String local = Input.lerString();
+        System.out.print("Insert separeted by commas the list of people related to the event: ");
+        String[] people = Input.lerString().split("\\s*,\\s*");
+        List<String> people_envolved = new ArrayList<String>(Arrays.asList(people));
+        System.out.print("Which is the Date-Time when the event begin: ");
+        LocalDateTime date = Input.lerDateTime();
+
+        EventModel em = new EventModel(date,people_envolved,title,description,local);
+
+        LocalDateTime end = date;
+        List<ChronoUnit> available = new ArrayList<>();
+        List<String> available_s = new ArrayList<>();
+        int i = 1;
+
+        for(ChronoUnit c : ChronoUnit.values()){
+            if(date.isSupported(c)) {
+                available_s.add(i + " - " + c.toString());
+                available.add(c);
+                i ++;
+            }
+        }
+        ChronoUnit cu;
+        long amount;
+        String prompt = "Which units would you like to use to set the duration of the event? (enter each unit separated by a space)";
+        UTDCView.printColletion(prompt, available_s);
+        String[] units = Input.lerString().split("\\s+");
+        for(String code : units){
+            try{
+                cu = available.get(Integer.parseInt(code) - 1);
+                System.out.print(cu + ": ");
+                amount = Input.lerLong();
+                end = end.plus(amount, cu);
+            }catch(IndexOutOfBoundsException e){
+                System.out.println(code + " is not a valid option!");
+            }
+        }
+        em.setDuration(Duration.between(date,end));
+        this.model.addEvent(em);
+        System.out.println("Event added successfully with the following properties:");
+        System.out.println(em.getInfoDetails());
     }
 
     private void removeEvent(){

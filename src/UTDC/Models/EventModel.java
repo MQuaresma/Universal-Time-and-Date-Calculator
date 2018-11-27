@@ -16,7 +16,7 @@ public class EventModel {
     String description;
     String local;
 
-    public EventModel(LocalDateTime date, List<String> people_envolved, String description, String local) {
+    public EventModel(LocalDateTime date, List<String> people_envolved, String title, String description, String local) {
         this.date = date;
         this.people_envolved = people_envolved;
         this.title = description;
