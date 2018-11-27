@@ -9,6 +9,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TimeZoneController implements ControllerInterface {
     public void setView(UTDCView v){
@@ -43,15 +44,23 @@ public class TimeZoneController implements ControllerInterface {
 
     private void showTimeZones() {
         Set<String> timezones = ZoneId.getAvailableZoneIds();
-        UTDCView.printColletion("All available Time Zones:", timezones);
         String opcao;
+
+        UTDCView.printColletion("All available Time Zones:", timezones);
         System.out.println("Find TimeZone: (M -> Main Menu) ");
-        opcao = Input.lerString().toUpperCase();
-        while (!opcao.equals("M")) {
-            UTDCView.printTimeZoneTime(opcao);
-            System.out.println("Find TimeZone: (M -> Main Menu) ");
+
+        do{
             opcao = Input.lerString().toUpperCase();
-        }
+
+            Set<String> matching_zones = this.filterTimeZones(timezones, ".*" + opcao + ".*");
+            UTDCView.printColletion("Matching Time Zones:", matching_zones);
+
+            System.out.println("Find TimeZone: (M -> Main Menu) ");
+        }while (!opcao.equals("M"));
+    }
+
+    private Set<String> filterTimeZones(Set<String> timezones, String regex){
+        return timezones.stream().filter(s->s.matches(regex)).collect(Collectors.toSet());
     }
 
     private void calculateTimezones(){

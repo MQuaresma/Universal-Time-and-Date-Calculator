@@ -113,17 +113,6 @@ public class UTDCView {
         System.out.println("(Format hint = Continent/City)");
     }
 
-
-    public static void printTimeZoneTime(String zone) {
-        Set<String> timezones = ZoneId.getAvailableZoneIds();
-        timezones.forEach( z -> {
-            String regex = ".*" + zone + ".*";
-            if(z.matches(regex)) {
-                System.out.println(z);
-            }
-        });
-    }
-
     public static void printColletion(String header, Collection<String> values){
         System.out.println(header);
         for(String val: values){
