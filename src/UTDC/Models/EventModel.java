@@ -56,6 +56,22 @@ public class EventModel {
         this.local = local;
     }
 
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getInfoShort(){
         StringBuilder sb = new StringBuilder();
         sb.append("Title: ").append(this.title).append("\n");

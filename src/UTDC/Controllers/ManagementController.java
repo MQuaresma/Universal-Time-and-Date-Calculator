@@ -4,15 +4,10 @@ import UTDC.Input;
 import UTDC.Models.UTDCModel;
 import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class ManagementController implements ControllerInterface {
     private UTDCModel model;
@@ -31,11 +26,12 @@ public class ManagementController implements ControllerInterface {
             opcao = Input.lerString().toUpperCase();
             switch (opcao) {
                 case "L":
-                    this.checkAppointments();
+                    this.checkEvents();
                     break;
                 case "N":
                     break;
                 case "R":
+                    this.removeEvent();
                     break;
                 case "C":
                     break;
@@ -50,7 +46,7 @@ public class ManagementController implements ControllerInterface {
         } while (!opcao.equals("M"));
     }
 
-    private void checkAppointments(){
+    private void checkEvents(){
         Menu menu = UTDCView.checkEventsMenu();
         menu.show();
         String op;
@@ -66,7 +62,7 @@ public class ManagementController implements ControllerInterface {
                 UTDCView.printColletion("*** Upcoming events ***", future_info);
                 break;
             case "D":
-                LocalDate input= null;
+                LocalDate input;
                 LocalDateTime start, end;
                 System.out.print("Initial date: ");
                 input = Input.lerDate();
@@ -121,5 +117,55 @@ public class ManagementController implements ControllerInterface {
 
         List<String> upcoming_events = this.model.getEventsTimeInterval(now, frame_end);
         UTDCView.printColletion("*** Upcoming Events ***", upcoming_events);
+    }
+
+    private void removeEvent(){
+        List<String> ev = this.listEventsByCriteria();
+        if(ev.size()<=0){
+            System.out.println("No events match the criteria");
+        }else{
+            UTDCView.printColletion("*** Events matching the criteira ***", ev);
+            System.out.print("Insert the exact date of the event you'd like to remove: ");
+            LocalDateTime timestamp = Input.lerDateTime();
+
+            this.model.removeEventAt(timestamp);
+        }
+    }
+
+
+    private List<String> listEventsByCriteria(){
+        List<String> matches = new ArrayList<>();
+        String op;
+        String search_param;
+
+        Menu menu = UTDCView.eventPropertyMenu();
+
+        menu.show();
+        op = Input.lerString();
+        switch(op){
+            case "T":
+                System.out.print("Title: ");
+                search_param = Input.lerString();
+                matches = this.model.getEventsByTitle(search_param);
+                break;
+            case "D":
+                System.out.print("Description: ");
+                search_param = Input.lerString();
+                matches = this.model.getEventsByDescription(search_param);
+                break;
+            case "L":
+                System.out.print("Location: ");
+                search_param = Input.lerString();
+                matches = this.model.getEventsByLocation(search_param);
+                break;
+            case "W":
+                System.out.print("Date-Time: ");
+                LocalDateTime ev_date = Input.lerDateTime();
+                matches = this.model.getEventsByDate(ev_date);
+                break;
+            default:
+                break;
+        }
+        return matches;
     }
 }

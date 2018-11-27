@@ -85,9 +85,9 @@ public class UTDCView {
 
     public static Menu optionsTimeZone(){
         Opcao op1, op2, op3;
-        op1 = new Opcao("Your time zone    -->  Custom time zone ...", "1");
-        op2 = new Opcao("Custom time zone  -->  Your time zone .....", "2");
-        op3 = new Opcao("Custom time zone  -->  Custom time zone ...", "3");
+        op1 = new Opcao("Your time zone    -->  Custom time zone", "1");
+        op2 = new Opcao("Custom time zone  -->  Your time zone .", "2");
+        op3 = new Opcao("Custom time zone  -->  Custom time zone", "3");
         List<Opcao> ops = Arrays.asList(op1, op2, op3);
         Menu timeZoneConvMenu = new Menu(ops, "What type of conversion do you want to perform?");
         return timeZoneConvMenu;
@@ -95,13 +95,25 @@ public class UTDCView {
 
     public static Menu checkEventsMenu(){
         Opcao op1, op2, op3, op4, op5;
-        op1 = new Opcao("Check all events ..........................", "A");
-        op2 = new Opcao("Check future events .......................", "F");
-        op3 = new Opcao("Check events in a given date ..............", "D");
-        op4 = new Opcao("Check events in x amount of time ..........", "U");
-        op5 = new Opcao("Check past events .........................", "P");
+        op1 = new Opcao("Check all events ......................", "A");
+        op2 = new Opcao("Check future events ...................", "F");
+        op3 = new Opcao("Check events in a given date ..........", "D");
+        op4 = new Opcao("Check events in x amount of time ......", "U");
+        op5 = new Opcao("Check past events .....................", "P");
         List<Opcao> ops = Arrays.asList(op1, op2, op3, op4, op5);
         Menu checkMenu = new Menu(ops, "Which events would you like to list?");
+        return checkMenu;
+    }
+
+    public static Menu eventPropertyMenu(){
+        Opcao op1, op2, op3, op4;
+
+        op1 = new Opcao("Title .................................", "T");
+        op2 = new Opcao("Description ...........................", "D");
+        op3 = new Opcao("Location ..............................", "L");
+        op4 = new Opcao("Date ..................................", "W");
+        List<Opcao> ops = Arrays.asList(op1, op2, op3, op4);
+        Menu checkMenu = new Menu(ops, "Choose search parameter");
         return checkMenu;
     }
 

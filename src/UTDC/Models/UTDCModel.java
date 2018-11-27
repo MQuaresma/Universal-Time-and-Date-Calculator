@@ -2,8 +2,12 @@ package UTDC.Models;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UTDCModel implements Serializable {
@@ -21,6 +25,12 @@ public class UTDCModel implements Serializable {
 
     public void removeEvent(EventModel em){
         this.events.remove(em);
+    }
+
+    public void removeEventAt(LocalDateTime timestamp){
+        this.events = this.events.stream()
+                .filter(ev -> !ev.getDate().equals(timestamp))
+                .collect(Collectors.toList());
     }
 
     public List<String> getShortEvents(){
@@ -52,5 +62,33 @@ public class UTDCModel implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public List<String> getEventsByTitle(String title){
+        return this.events.stream()
+                .filter(e -> e.getTitle().equals(title))
+                .map(e -> e.getInfoShort())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getEventsByDescription(String description){
+        return this.events.stream()
+                .filter(e -> e.getDescription().contains(description))
+                .map(e -> e.getInfoShort())
+                .collect(Collectors.toList());
+    }
+
+    //TODO: more flexible search to include LocalDateTime during the event (init + duration)
+    public List<String> getEventsByDate(LocalDateTime date){
+        return this.events.stream()
+                .filter(e -> e.getDate().equals(date))
+                .map(e -> e.getInfoShort())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getEventsByLocation(String location){
+        return this.events.stream()
+                .filter(e -> e.getLocal().contains(location))
+                .map(e -> e.getInfoShort())
+                .collect(Collectors.toList());
+    }
 }
 
