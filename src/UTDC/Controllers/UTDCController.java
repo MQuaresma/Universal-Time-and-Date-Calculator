@@ -60,6 +60,7 @@ public class UTDCController {
         this.dateTimeController = new DateTimeModeController();
         this.managementController = new ManagementController();
         this.timeZoneController = new TimeZoneController();
+        this.managementController.setModel(this.model);
     }
 
 }

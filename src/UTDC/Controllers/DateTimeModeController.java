@@ -1,6 +1,7 @@
 package UTDC.Controllers;
 
 import UTDC.Input;
+import UTDC.Models.UTDCModel;
 import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
 
@@ -14,6 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DateTimeModeController implements ControllerInterface {
+    public void setView(UTDCView v){
+    }
+
+    public void setModel(UTDCModel m){
+    }
+
     public void startFlow(Menu menu){
         String opcao;
         do {

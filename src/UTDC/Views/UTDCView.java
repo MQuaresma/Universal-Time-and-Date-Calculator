@@ -49,13 +49,14 @@ public class UTDCView {
         Menu dateTimeMenu = new Menu(linhas2, "Date/Time Calculator Mode");
         menusUTDC.addMenu(2, dateTimeMenu);
 
-        Opcao op31, op32, op33, op34, op35;
-        op31 = new Opcao("Check appointments ....................", "C");
-        op32 = new Opcao("Add appointment .......................", "A");
+        Opcao op31, op32, op33, op34, op35, op36;
+        op31 = new Opcao("List appointments .....................", "L");
+        op32 = new Opcao("Add appointment .......................", "N");
         op33 = new Opcao("Remove appointment ....................", "R");
-        op34 = new Opcao("Change appointment ....................", "M");
+        op34 = new Opcao("Change appointment ....................", "C");
         op35 = new Opcao("Appointment details ...................", "D");
-        List<Opcao> linhas3 = Arrays.asList(op31, op32, op33, op34, op35);
+        op36 = new Opcao("Main menu .............................", "M");
+        List<Opcao> linhas3 = Arrays.asList(op31, op32, op33, op34, op35, op36);
         Menu slotMenu = new Menu(linhas3, "Slot Management Mode");
         menusUTDC.addMenu(3, slotMenu);
 
@@ -91,6 +92,18 @@ public class UTDCView {
         List<Opcao> ops = Arrays.asList(op1, op2, op3);
         Menu timeZoneConvMenu = new Menu(ops, "What type of conversion do you want to perform?");
         return timeZoneConvMenu;
+    }
+
+    public static Menu checkEventsMenu(){
+        Opcao op1, op2, op3, op4, op5;
+        op1 = new Opcao("Check all events ..........................", "A");
+        op2 = new Opcao("Check future events .......................", "F");
+        op3 = new Opcao("Check events in a given date ..............", "D");
+        op4 = new Opcao("Check events in x amount of time ..........", "U");
+        op5 = new Opcao("Check past events .........................", "P");
+        List<Opcao> ops = Arrays.asList(op1, op2, op3, op4, op5);
+        Menu checkMenu = new Menu(ops, "Which events would you like to list?");
+        return checkMenu;
     }
 
     public static void timeZoneTime(){

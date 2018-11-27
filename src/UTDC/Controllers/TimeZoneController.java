@@ -1,6 +1,7 @@
 package UTDC.Controllers;
 
 import UTDC.Input;
+import UTDC.Models.UTDCModel;
 import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
 
@@ -10,6 +11,11 @@ import java.time.temporal.Temporal;
 import java.util.Set;
 
 public class TimeZoneController implements ControllerInterface {
+    public void setView(UTDCView v){
+    }
+
+    public void setModel(UTDCModel m){
+    }
 
     public void startFlow(Menu menu){
         String opcao;
