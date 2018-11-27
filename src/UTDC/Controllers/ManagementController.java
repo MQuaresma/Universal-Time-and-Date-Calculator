@@ -5,7 +5,9 @@ import UTDC.Models.UTDCModel;
 import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 import java.util.List;
 
 public class ManagementController implements ControllerInterface {
@@ -60,7 +62,14 @@ public class ManagementController implements ControllerInterface {
                 UTDCView.printColletion("*** Upcoming events ***", future_info);
                 break;
             case "D":
-                //TODO: events in a time interval
+                LocalDate input= null;
+                LocalDateTime start, end;
+                System.out.print("Initial date: ");
+                input = Input.lerDate();
+                start= input.atTime(0,0,0);
+                end = input.atTime(23,59,59);
+                List<String> events_date = this.model.getEventsTimeInterval(start,end);
+                UTDCView.printColletion("*** Events in given date ***",events_date );
                 break;
             case "U":
                 //TODO: events in less than x amount of time

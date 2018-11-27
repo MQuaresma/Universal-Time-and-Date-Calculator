@@ -2,10 +2,12 @@ package UTDC.Views;
 
 import UTDC.Models.Opcao;
 
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Set;
 
 public class UTDCView {
 
@@ -109,6 +111,17 @@ public class UTDCView {
     public static void timeZoneTime(){
         System.out.println("Which TimeZone would you like to check the time of?");
         System.out.println("(Format hint = Continent/City)");
+    }
+
+
+    public static void printTimeZoneTime(String zone) {
+        Set<String> timezones = ZoneId.getAvailableZoneIds();
+        timezones.forEach( z -> {
+            String regex = ".*" + zone + ".*";
+            if(z.matches(regex)) {
+                System.out.println(z);
+            }
+        });
     }
 
     public static void printColletion(String header, Collection<String> values){

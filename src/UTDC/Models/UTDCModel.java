@@ -44,4 +44,13 @@ public class UTDCModel implements Serializable {
                 .map(e -> e.getInfoShort())
                 .collect(Collectors.toList());
     }
+
+    public List<String> getEventsTimeInterval (LocalDateTime date1,LocalDateTime date2){
+        return this.events.stream()
+                .filter(e -> e.getDate().isBefore(date2) && e.getDate().isAfter(date1))
+                .map(e -> e.getInfoShort())
+                .collect(Collectors.toList());
+    }
+
 }
+

@@ -24,8 +24,7 @@ public class TimeZoneController implements ControllerInterface {
             opcao = Input.lerString().toUpperCase();
             switch (opcao) {
                 case "S":
-                    Set<String> timezones = ZoneId.getAvailableZoneIds();
-                    UTDCView.printColletion("All available Time Zones:", timezones);
+                    this.showTimeZones();
                     break;
                 case "C":
                     this.calculateTimezones();
@@ -40,6 +39,19 @@ public class TimeZoneController implements ControllerInterface {
                     break;
             }
         } while (!opcao.equals("M"));
+    }
+
+    private void showTimeZones() {
+        Set<String> timezones = ZoneId.getAvailableZoneIds();
+        UTDCView.printColletion("All available Time Zones:", timezones);
+        String opcao;
+        System.out.println("Find TimeZone: (M -> Main Menu) ");
+        opcao = Input.lerString().toUpperCase();
+        while (!opcao.equals("M")) {
+            UTDCView.printTimeZoneTime(opcao);
+            System.out.println("Find TimeZone: (M -> Main Menu) ");
+            opcao = Input.lerString().toUpperCase();
+        }
     }
 
     private void calculateTimezones(){
