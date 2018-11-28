@@ -29,6 +29,10 @@ public class UTDCModel implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public List<EventModel> getEventsRaw(){
+        return this.events;
+    }
+
     public List<String> getShortEvents(){
         return this.events.stream().map(e -> e.getInfoShort()).collect(Collectors.toList());
     }
@@ -72,57 +76,6 @@ public class UTDCModel implements Serializable {
     public List<String> getEventsByLocation(String location){
         return this.filter_map_Events(e -> e.getLocal().contains(location));
     }
-    /*
-    public List<String> getFutureEvents(LocalDateTime now){
-        return this.events.stream()
-                          .filter(e -> e.getDate().isAfter(now))
-                          .map(e -> e.getInfoShort())
-                          .collect(Collectors.toList());
-    }
-
-    public List<String> getPastEvents(LocalDateTime now){
-        return this.events.stream()
-                .filter(e -> e.getDate().isBefore(now))
-                .map(e -> e.getInfoShort())
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getEventsTimeInterval (LocalDateTime date1,LocalDateTime date2){
-        return this.events.stream()
-                .filter(e -> e.getDate().isBefore(date2) && e.getDate().isAfter(date1))
-                .map(e -> e.getInfoShort())
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getEventsByTitle(String title){
-        return this.events.stream()
-                .filter(e -> e.getTitle().equals(title))
-                .map(e -> e.getInfoShort())
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getEventsByDescription(String description){
-        return this.events.stream()
-                .filter(e -> e.getDescription().contains(description))
-                .map(e -> e.getInfoShort())
-                .collect(Collectors.toList());
-    }
-
-    //TODO: more flexible search to include LocalDateTime during the event (init + duration)
-    public List<String> getEventsByDate(LocalDateTime date){
-        return this.events.stream()
-                .filter(e -> e.getDate().equals(date))
-                .map(e -> e.getInfoShort())
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getEventsByLocation(String location){
-        return this.events.stream()
-                .filter(e -> e.getLocal().contains(location))
-                .map(e -> e.getInfoShort())
-                .collect(Collectors.toList());
-    }
-    */
 
     public boolean containsEvent(LocalDateTime date){
         return this.events.stream().anyMatch(e -> e.getDate().equals(date));

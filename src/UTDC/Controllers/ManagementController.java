@@ -169,9 +169,24 @@ public class ManagementController implements ControllerInterface {
             }
         }
         em.setDuration(Duration.between(date,end));
-        this.model.addEvent(em);
-        System.out.println("Event added successfully with the following properties:");
-        System.out.println(em.getInfoDetails());
+
+        List<EventModel> events = this.model.getEventsRaw();
+        boolean valid=true;
+
+        for(EventModel ev: events){
+            LocalDateTime temp_start = ev.getDate();
+            LocalDateTime temp_end = temp_start.plus(ev.getDuration());
+            valid = date.isAfter(temp_end) || end.isBefore(temp_start);
+            if(!valid) break;
+        }
+
+        if(valid) {
+            this.model.addEvent(em);
+            System.out.println("Event added successfully with the following properties:");
+            System.out.println(em.getInfoDetails());
+        }else{
+            System.out.println("Event overlaps other events");
+        }
     }
 
     private void removeEvent(){
@@ -182,8 +197,10 @@ public class ManagementController implements ControllerInterface {
             UTDCView.printColletion("*** Events matching the criteira ***", ev);
             System.out.print("Insert the exact date of the event you'd like to remove: ");
             LocalDateTime timestamp = Input.lerDateTime();
-
-            this.model.removeEventAt(timestamp);
+            if(!this.model.containsEvent(timestamp))
+                System.out.println("No event found with given Date-Time");
+            else
+                this.model.removeEventAt(timestamp);
         }
     }
 
@@ -295,6 +312,7 @@ public class ManagementController implements ControllerInterface {
                 i ++;
             }
         }
+
         ChronoUnit cu;
         long amount;
         String prompt = "Which units would you like to use to set the duration of the event? (enter each unit separated by a space)";
