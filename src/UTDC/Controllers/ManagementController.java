@@ -42,6 +42,7 @@ public class ManagementController implements ControllerInterface {
                     this.changeEvent();
                     break;
                 case "D":
+                    this.appointmentDetails();
                     break;
                 case "M":
                     break;
@@ -311,5 +312,17 @@ public class ManagementController implements ControllerInterface {
         }
         em.setDuration(Duration.between(date,end));
         System.out.println("Event duration changed with success.");
+    }
+
+    private void appointmentDetails(){
+        System.out.print("Insert the Date-Time of the event you want to check the details: ");
+        LocalDateTime date = Input.lerDateTime();
+        if (!this.model.containsEvent(date)){
+            System.out.println("There is not an event with such Date-Time!");
+        }else{
+            EventModel event = this.model.getEvent(date);
+            String details = event.getInfoDetails();
+            System.out.println(details);
+        }
     }
 }
