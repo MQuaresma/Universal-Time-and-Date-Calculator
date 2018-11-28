@@ -117,6 +117,20 @@ public class UTDCView {
         return checkMenu;
     }
 
+    public static Menu changeEventPropertyMenu(){
+        Opcao op1, op2, op3, op4, op5, op6;
+
+        op1 = new Opcao("Title .................................", "1");
+        op2 = new Opcao("Date ..................................", "2");
+        op3 = new Opcao("Description ...........................", "3");
+        op4 = new Opcao("Location ..............................", "4");
+        op5 = new Opcao("People envolved .......................", "5");
+        op6 = new Opcao("Duration ..............................", "6");
+        List<Opcao> ops = Arrays.asList(op1, op2, op3, op4, op5, op6);
+        Menu changeEnventMenu = new Menu(ops, "Choose the property to change");
+        return changeEnventMenu;
+    }
+
     public static void timeZoneTime(){
         System.out.println("Which TimeZone would you like to check the time of?");
         System.out.println("(Format hint = Continent/City)");

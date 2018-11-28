@@ -19,7 +19,7 @@ public class EventModel {
     public EventModel(LocalDateTime date, List<String> people_envolved, String title, String description, String local) {
         this.date = date;
         this.people_envolved = people_envolved;
-        this.title = description;
+        this.title = title;
         this.description = description;
         this.local = local;
     }

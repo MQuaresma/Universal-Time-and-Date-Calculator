@@ -9,6 +9,7 @@ import UTDC.Views.UTDCView;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -38,6 +39,7 @@ public class ManagementController implements ControllerInterface {
                     this.removeEvent();
                     break;
                 case "C":
+                    this.changeEvent();
                     break;
                 case "D":
                     break;
@@ -54,7 +56,7 @@ public class ManagementController implements ControllerInterface {
         Menu menu = UTDCView.checkEventsMenu();
         menu.show();
         String op;
-        op = Input.lerString();
+        op = Input.lerString().toUpperCase();
         switch(op){
             case "A":
                 List<String> event_info = this.model.getShortEvents();
@@ -184,7 +186,6 @@ public class ManagementController implements ControllerInterface {
         }
     }
 
-
     private List<String> listEventsByCriteria(){
         List<String> matches = new ArrayList<>();
         String op;
@@ -219,5 +220,96 @@ public class ManagementController implements ControllerInterface {
                 break;
         }
         return matches;
+    }
+
+    private void changeEvent(){
+        System.out.print("Insert the Date-Time of the event you want to change: ");
+        LocalDateTime date = Input.lerDateTime();
+        if (!this.model.containsEvent(date)){
+            System.out.println("There is not an event with such Date-Time!");
+        }else{
+            EventModel em = this.model.getEvent(date);
+            Menu change = UTDCView.changeEventPropertyMenu();
+            change.show();
+            String op = Input.lerString();
+            switch (op){
+                case "1":
+                    System.out.println("The event title is set to: " + em.getTitle());
+                    System.out.print("Insert the new title: ");
+                    String title = Input.lerString();
+                    em.setTitle(title);
+                    System.out.println("Event title changed with success.");
+                    break;
+                case "2":
+                    System.out.println("The event Date-Time is set to: " + em.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+                    System.out.print("Insert the new date: ");
+                    LocalDateTime new_date = Input.lerDateTime();
+                    em.setDate(new_date);
+                    System.out.println("Event date changed with success.");
+                    break;
+                case "3":
+                    System.out.println("The event description is set to: " + em.getDescription());
+                    System.out.print("Insert the new description: ");
+                    String description = Input.lerString();
+                    em.setDescription(description);
+                    System.out.println("Event description changed with success.");
+                    break;
+                case "4":
+                    System.out.println("The event location is set to: " + em.getLocal());
+                    System.out.print("Insert the new location: ");
+                    String local = Input.lerString();
+                    em.setLocal(local);
+                    System.out.println("Event location changed with success.");
+                    break;
+                case "5":
+                    UTDCView.printColletion("The list of people envolved in the event is set to: ", em.getPeople_envolved());
+                    System.out.print("Insert the new list of people envolved separeted by commas: ");
+                    String[] people = Input.lerString().split("\\s*,\\s*");
+                    List<String> people_envolved = new ArrayList<String>(Arrays.asList(people));
+                    em.setPeople_envolved(people_envolved);
+                    System.out.println("Event list of people envolved changed with success.");
+                    break;
+                case "6":
+                    this.changeEventDuration(em);
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+                    break;
+            }
+        }
+    }
+
+    private void changeEventDuration(EventModel em){
+        System.out.println("The duration of the event is set to: " + em.getDuration());
+        LocalDateTime date = em.getDate();
+        LocalDateTime end = date;
+        List<ChronoUnit> available = new ArrayList<>();
+        List<String> available_s = new ArrayList<>();
+        int i = 1;
+
+        for(ChronoUnit c : ChronoUnit.values()){
+            if(end.isSupported(c)) {
+                available_s.add(i + " - " + c.toString());
+                available.add(c);
+                i ++;
+            }
+        }
+        ChronoUnit cu;
+        long amount;
+        String prompt = "Which units would you like to use to set the duration of the event? (enter each unit separated by a space)";
+        UTDCView.printColletion(prompt, available_s);
+        String[] units = Input.lerString().split("\\s+");
+        for(String code : units){
+            try{
+                cu = available.get(Integer.parseInt(code) - 1);
+                System.out.print(cu + ": ");
+                amount = Input.lerLong();
+                end = end.plus(amount, cu);
+            }catch(IndexOutOfBoundsException e){
+                System.out.println(code + " is not a valid option!");
+            }
+        }
+        em.setDuration(Duration.between(date,end));
+        System.out.println("Event duration changed with success.");
     }
 }

@@ -90,5 +90,17 @@ public class UTDCModel implements Serializable {
                 .map(e -> e.getInfoShort())
                 .collect(Collectors.toList());
     }
+
+    public boolean containsEvent(LocalDateTime date){
+        return this.events.stream().anyMatch(e -> e.getDate().equals(date));
+    }
+
+    public EventModel getEvent(LocalDateTime date){
+        EventModel event = null;
+        for (EventModel em : this.events){
+            if (em.getDate().equals(date)) event = em;
+        }
+        return event;
+    }
 }
 
