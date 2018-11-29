@@ -28,10 +28,10 @@ public class DateTimeModeController implements ControllerInterface {
             opcao = Input.lerString().toUpperCase();
             switch (opcao) {
                 case "D":
-                    System.out.println(this.durationBetweenDates());
+                    this.durationBetweenDates(1);
                     break;
                 case "U":
-                    this.durationBetweenDatesUnits();
+                    this.durationBetweenDates(2);
                     break;
                 case "A":
                     System.out.println("Result: " + timeToString(dateOffset(1)));
@@ -48,30 +48,10 @@ public class DateTimeModeController implements ControllerInterface {
         } while (!opcao.equals("M"));
     }
 
-    private String durationBetweenDates(){
-        System.out.println("Duration between dates");
-        System.out.print("Initial date: ");
-        LocalDateTime start = Input.lerDateTime();
-        System.out.print("End date: ");
-        LocalDateTime end = Input.lerDateTime();
-        ChronoUnit[] c_units = {ChronoUnit.YEARS, ChronoUnit.MONTHS, ChronoUnit.DAYS, ChronoUnit.HOURS, ChronoUnit.MINUTES, ChronoUnit.SECONDS};
-        long[] values = new long[6];
-        int i = 0;
-        LocalDateTime temp = LocalDateTime.from(start);
-        for (ChronoUnit cu : c_units){
-            values[i] = temp.until(end, cu);
-            temp = temp.plus(values[i], cu);
-            i++;
-        }
-        String r = "";
-        for (int j=0; j<6; j++){
-            if (values[j] != 0) r += values[j] + " " + c_units[j] + " ";
-        }
-        return r;
-    }
-
-    private void durationBetweenDatesUnits(){
-        System.out.println("Duration between dates in specific units");
+    //mode = 1 -> simple, mode = 2 -> units
+    private void durationBetweenDates(int mode){
+        if (mode == 1) System.out.println("Duration between dates");
+        else System.out.println("Duration between dates in specific units");
         Menu date_menu = UTDCView.dateFormats();
         date_menu.show();
         String option = Input.lerString();
@@ -82,24 +62,47 @@ public class DateTimeModeController implements ControllerInterface {
                 start = Input.lerDate();
                 System.out.print("End date: ");
                 end = Input.lerDate();
-                this.dbd_function(start,end);
+                if (mode == 1) this.durationBetweenDatesSimple(start, end);
+                else this.dbd_function(start,end);
                 break;
             case "2":
                 System.out.print("Initial date: ");
                 start = Input.lerDateTime();
                 System.out.print("End date: ");
                 end = Input.lerDateTime();
-                this.dbd_function(start,end);
+                if (mode == 1) this.durationBetweenDatesSimple(start, end);
+                else this.dbd_function(start,end);
                 break;
             case "3":
                 System.out.print("Initial time: ");
                 start = Input.lerTime();
                 System.out.print("End time: ");
                 end = Input.lerTime();
-                this.dbd_function(start,end);
+                if (mode == 1) this.durationBetweenDatesSimple(start, end);
+                else this.dbd_function(start,end);
             default:
                 break;
         }
+    }
+
+    private void durationBetweenDatesSimple(Temporal start, Temporal end){
+        ChronoUnit[] c_units = {ChronoUnit.YEARS, ChronoUnit.MONTHS, ChronoUnit.DAYS, ChronoUnit.HOURS, ChronoUnit.MINUTES, ChronoUnit.SECONDS};
+        long[] values = new long[6];
+        int i = 0;
+        Temporal temp = start;
+        for (ChronoUnit cu : c_units){
+            if (temp.isSupported(cu)){
+                values[i] = temp.until(end, cu);
+                temp = temp.plus(values[i], cu);
+            }
+            else values[i] = 0;
+            i++;
+        }
+        String r = "";
+        for (int j=0; j<6; j++){
+            if (values[j] != 0) r += values[j] + " " + c_units[j] + " ";
+        }
+        System.out.println(r);
     }
 
     private void dbd_function(Temporal start, Temporal end){
