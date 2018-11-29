@@ -23,12 +23,12 @@ public class Menu {
     }
 
     public void show(){
-        System.out.println("--------------------------------------------");
-        System.out.println("          " + this.nome);
-        System.out.println("--------------------------------------------");
+        System.out.println("-----------------------------------------------------");
+        System.out.println("                 " + this.nome);
+        System.out.println("-----------------------------------------------------");
         for (Opcao o : this.linhas)
             o.print();
-        System.out.print("          Insert your option:");
+        System.out.print("                   Insert your option:");
     }
 
     public List<Opcao> getLinhas() {
