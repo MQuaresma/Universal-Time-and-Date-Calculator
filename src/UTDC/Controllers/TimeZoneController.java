@@ -50,9 +50,9 @@ public class TimeZoneController implements ControllerInterface {
         System.out.println("Find TimeZone: (M -> Main Menu) ");
 
         do{
-            opcao = Input.lerString().toUpperCase();
+            opcao = Input.lerString();
 
-            Set<String> matching_zones = this.filterTimeZones(timezones, ".*" + opcao + ".*");
+            Set<String> matching_zones = this.filterTimeZones(timezones, ".*" + "(?i:" + opcao + ").*");
             UTDCView.printColletion("Matching Time Zones:", matching_zones);
 
             System.out.println("Find TimeZone: (M -> Main Menu) ");
