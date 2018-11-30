@@ -61,12 +61,13 @@ public class UTDCView {
         menusUTDC.addMenu(3, slotMenu);
 
 
-        Opcao op41, op42, op43, op44;
+        Opcao op41, op42, op43, op44, op45;
         op41 = new Opcao("Show Time Zones .....................................", "S");
-        op42 = new Opcao("Calculate new Time Zone .............................", "C");
-        op43 = new Opcao("Time-Date at specific Time Zone .....................", "T");
-        op44 = new Opcao("Main menu ...........................................", "M");
-        List<Opcao> linhas4 = Arrays.asList(op41, op42, op43, op44);
+        op42 = new Opcao("Find Time Zones .....................................", "F");
+        op43 = new Opcao("Calculate new Time Zone .............................", "C");
+        op44 = new Opcao("Time-Date at specific Time Zone .....................", "T");
+        op45 = new Opcao("Main menu ...........................................", "M");
+        List<Opcao> linhas4 = Arrays.asList(op41, op42, op43, op44, op45);
         Menu timeZoneMenu = new Menu(linhas4, "Timezone Calculator Mode");
         menusUTDC.addMenu(4, timeZoneMenu);
 

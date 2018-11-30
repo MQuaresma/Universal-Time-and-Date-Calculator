@@ -25,6 +25,7 @@ public class EventModel {
         this.description = description;
         this.local = local;
         this.dayOfWeek = date.getDayOfWeek();
+        this.duration = Duration.ZERO;
     }
 
     public LocalDateTime getDate() {

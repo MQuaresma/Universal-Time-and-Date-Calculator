@@ -27,6 +27,9 @@ public class TimeZoneController implements ControllerInterface {
                 case "S":
                     this.showTimeZones();
                     break;
+                case "F":
+                    this.findTimeZones();
+                    break;
                 case "C":
                     this.calculateTimezones();
                     break;
@@ -44,19 +47,24 @@ public class TimeZoneController implements ControllerInterface {
 
     private void showTimeZones() {
         Set<String> timezones = ZoneId.getAvailableZoneIds();
-        String opcao;
 
         UTDCView.printColletion("All available Time Zones:", timezones);
+    }
+
+    private void findTimeZones(){
+        Set<String> timezones = ZoneId.getAvailableZoneIds();
+        String opcao;
+
         System.out.println("Find TimeZone: (M -> Main Menu) ");
+        opcao = Input.lerString().toUpperCase();
 
-        do{
-            opcao = Input.lerString().toUpperCase();
-
+        while (!opcao.equals("M")){
             Set<String> matching_zones = this.filterTimeZones(timezones, ".*" + "(?i:" + opcao + ").*");
             UTDCView.printColletion("Matching Time Zones:", matching_zones);
 
             System.out.println("Find TimeZone: (M -> Main Menu) ");
-        }while (!opcao.equals("M"));
+            opcao = Input.lerString().toUpperCase();
+        }
     }
 
     private Set<String> filterTimeZones(Set<String> timezones, String regex){
@@ -65,30 +73,38 @@ public class TimeZoneController implements ControllerInterface {
 
     private void calculateTimezones(){
         Menu tz = UTDCView.optionsTimeZone();
-        tz.show();
-        String option = Input.lerString().toUpperCase();
+        String option;
         ZoneId zone1 = null;
         ZoneId zone2 = null;
-        switch (option) {
-            case "1":
-                zone1 = ZonedDateTime.now().getZone();
-                System.out.print("Final time zone: ");
-                zone2 = this.readTimezone();
-                break;
-            case "2":
-                zone2 = ZonedDateTime.now().getZone();
-                System.out.print("Initial time zone: ");
-                zone1 = this.readTimezone();
-                break;
-            case "3":
-                System.out.print("Initial time zone: ");
-                zone1 = this.readTimezone();
-                System.out.print("Final time zone: ");
-                zone2 = this.readTimezone();
-                break;
-            default:
-                System.out.println("Invalid option!");
-                break;
+        boolean ok=false;
+
+        while(!ok) {
+            tz.show();
+            option = Input.lerString().toUpperCase();
+            switch (option) {
+                case "1":
+                    zone1 = ZonedDateTime.now().getZone();
+                    System.out.print("Final time zone: ");
+                    zone2 = this.readTimezone();
+                    ok=true;
+                    break;
+                case "2":
+                    zone2 = ZonedDateTime.now().getZone();
+                    System.out.print("Initial time zone: ");
+                    zone1 = this.readTimezone();
+                    ok=true;
+                    break;
+                case "3":
+                    System.out.print("Initial time zone: ");
+                    zone1 = this.readTimezone();
+                    System.out.print("Final time zone: ");
+                    zone2 = this.readTimezone();
+                    ok=true;
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+                    break;
+            }
         }
         System.out.print("Insert date in initial zone: ");
         LocalDateTime ldt = Input.lerDateTime();

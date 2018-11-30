@@ -141,24 +141,33 @@ public class DateTimeModeController implements ControllerInterface {
     private Temporal dateOffset(int mode){
         System.out.println("Date/Time with offset");
         Menu date_menu = UTDCView.dateFormats();
-        date_menu.show();
-        String option = Input.lerString();
+        String option;
         Temporal t = null;
-        switch (option){
-            case "1":
-                System.out.print("Insert date: ");
-                t = Input.lerDate();
-                break;
-            case "2":
-                System.out.print("Insert date: ");
-                t = Input.lerDateTime();
-                break;
-            case "3":
-                System.out.print("Insert time: ");
-                t = Input.lerTime();
-                break;
-            default:
-                break;
+        boolean ok=false;
+
+        while(!ok){
+            date_menu.show();
+            option = Input.lerString();
+            switch (option){
+                case "1":
+                    System.out.print("Insert date: ");
+                    t = Input.lerDate();
+                    ok=true;
+                    break;
+                case "2":
+                    System.out.print("Insert date: ");
+                    t = Input.lerDateTime();
+                    ok=true;
+                    break;
+                case "3":
+                    System.out.print("Insert time: ");
+                    t = Input.lerTime();
+                    ok=true;
+                    break;
+                default:
+                    System.out.println("Invalid option, try again!");
+                    break;
+            }
         }
 
         List<ChronoUnit> units = this.available_chronounits(t);

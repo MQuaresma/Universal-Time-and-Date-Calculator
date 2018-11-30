@@ -103,12 +103,11 @@ public class Input {
              .collect(Collectors.toList());
      while(!ok){
          date_txt = input.nextLine().toUpperCase();
-         if (days.contains(date_txt)) {
+         try{
              dayOfWeek = DayOfWeek.valueOf(date_txt);
              ok = true;
-         }
-         else{
-             System.out.println("Invalid day of week, try again!");
+         }catch(Exception e){
+             out.println("Invalid day of week, try again!");
          }
      }
      return dayOfWeek;

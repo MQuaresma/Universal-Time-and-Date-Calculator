@@ -97,8 +97,8 @@ public class ManagementController implements ControllerInterface {
                                             .collect(Collectors.toList());
                 UTDCView.printColletion("Weekdays", week_days);
                 System.out.print("Weekday: ");
-                TemporalAdjuster w_day = Input.lerWeekDay();
-                List<String> events_weekday = this.model.getEventsByWeekday(w_day);
+                DayOfWeek w_day = Input.lerWeekDay();
+                List<String> events_weekday = this.model.getEventsByDayOfWeek(w_day);
                 UTDCView.printColletion("*** Events at " + w_day.toString() + " ***", events_weekday);
                 break;
             default:
