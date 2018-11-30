@@ -93,7 +93,7 @@ public class ManagementController implements ControllerInterface {
             case "W":
                 List<String> week_days = Arrays.asList(DayOfWeek.values())
                                             .stream()
-                                            .map(d -> d.getDisplayName(TextStyle.FULL, Locale.UK))
+                                            .map(d -> d.getDisplayName(TextStyle.FULL, Locale.getDefault()))
                                             .collect(Collectors.toList());
                 UTDCView.printColletion("Weekdays", week_days);
                 System.out.print("Weekday: ");

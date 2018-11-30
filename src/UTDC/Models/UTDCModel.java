@@ -73,7 +73,6 @@ public class UTDCModel implements Serializable {
         return this.filter_map_Events((e) -> e.getDayOfWeek().equals(dayOfWeek));
     }
 
-    //TODO: more flexible search to include LocalDateTime during the event (init + duration)
     public List<String> getEventsByDate(LocalDateTime date){
         return this.filter_map_Events(e -> e.getDate().equals(date));
     }

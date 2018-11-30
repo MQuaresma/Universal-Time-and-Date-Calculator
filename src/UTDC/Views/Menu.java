@@ -23,9 +23,9 @@ public class Menu {
     }
 
     public void show(){
-        System.out.println("-----------------------------------------------------");
+        System.out.println("\n\n-----------------------------------------------------");
         System.out.println("                 " + this.nome);
-        System.out.println("-----------------------------------------------------");
+        System.out.println("-----------------------------------------------------\n");
         for (Opcao o : this.linhas)
             o.print();
         System.out.print("                   Insert your option:");

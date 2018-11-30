@@ -39,13 +39,14 @@ public class UTDCView {
         Menu menuPrincipal = new Menu(linhas1,"Initial Menu");
         menusUTDC.addMenu(1,menuPrincipal);
 
-        Opcao op21, op22, op23, op24, op25;
+        Opcao op21, op22, op23, op24, op25, op26;
         op21 = new Opcao("Difference between dates/times ......................", "D");
         op22 = new Opcao("Difference between dates/times in specific unities ..", "U");
         op23 = new Opcao("Add amount to date/time .............................", "A");
         op24 = new Opcao("Subtract amount from date/time ......................", "S");
-        op25 = new Opcao("Main menu ...........................................", "M");
-        List<Opcao> linhas2 = Arrays.asList(op21, op22, op23, op24, op25);
+        op25 = new Opcao("Lifetime analytics ..................................", "L");
+        op26 = new Opcao("Main menu ...........................................", "M");
+        List<Opcao> linhas2 = Arrays.asList(op21, op22, op23, op24, op25, op26);
         Menu dateTimeMenu = new Menu(linhas2, "Date/Time Calculator Mode");
         menusUTDC.addMenu(2, dateTimeMenu);
 
@@ -75,14 +76,18 @@ public class UTDCView {
         return menusUTDC;
     }
 
-    public static Menu dateFormats(){
+    public static Menu dateFormats(int full){
         Opcao op1, op2, op3;
         op1 = new Opcao("dd-MM-yyyy ...........................................", "1");
         op2 = new Opcao("dd-MM-yyyy HH:mm:ss ..................................", "2");
-        op3 = new Opcao("HH:mm:ss .............................................", "3");
-        List<Opcao> ops = Arrays.asList(op1, op2, op3);
-        Menu menu = new Menu(ops, "Available date/time formats");
-        return menu;
+        List<Opcao> ops = Arrays.asList(op1, op2);
+
+        if(full == 1){
+            op3 = new Opcao("HH:mm:ss .............................................", "3");
+            ops.add(op3);
+        }
+
+        return new Menu(ops, "Available date/time formats");
     }
 
     public static Menu optionsTimeZone(){
@@ -130,8 +135,20 @@ public class UTDCView {
         op5 = new Opcao("People envolved .....................................", "5");
         op6 = new Opcao("Duration ............................................", "6");
         List<Opcao> ops = Arrays.asList(op1, op2, op3, op4, op5, op6);
-        Menu changeEnventMenu = new Menu(ops, "Choose the property to change");
-        return changeEnventMenu;
+
+        return new Menu(ops, "Choose the property to change");
+    }
+
+    public static Menu lifeStatisticsMenu(){
+        Opcao op1, op2, op3, op4, op5;
+        op1 = new Opcao("Age at given date ...................................", "A");
+        op2 = new Opcao("Day of week of day of next birthday .................", "W");
+        op3 = new Opcao("Birthday-Weekday percentage distribuition ...........", "D");
+        op4 = new Opcao("Amount of leap years in lifetime ....................", "L");
+        op5 = new Opcao("Date/Time Menu ......................................", "M");
+
+        List<Opcao> ops = Arrays.asList(op1, op2, op3, op4, op5);
+        return new Menu(ops, "Available Statistics");
     }
 
     public static void timeZoneTime(){
@@ -144,16 +161,5 @@ public class UTDCView {
         for(String val: values){
             System.out.println(val);
         }
-    }
-
-    public static Menu buildMenu(String title, Map<String, String> options){
-        List<Opcao> ops = new ArrayList<Opcao>();
-
-        for(String op: options.keySet()){
-            Opcao new_op = new Opcao(options.get(op),op);
-            ops.add(new_op);
-        }
-
-        return new Menu(ops, title);
     }
 }

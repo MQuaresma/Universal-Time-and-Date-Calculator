@@ -5,14 +5,12 @@ import UTDC.Models.UTDCModel;
 import UTDC.Views.Menu;
 import UTDC.Views.UTDCView;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.TextStyle;
+import java.time.temporal.*;
+import java.util.*;
+import java.util.function.Function;
 
 public class DateTimeModeController implements ControllerInterface {
     public void setView(UTDCView v){
@@ -39,6 +37,9 @@ public class DateTimeModeController implements ControllerInterface {
                 case "S":
                     System.out.println("Result: " + timeToString(dateOffset(2)));
                     break;
+                case "L":
+                    this.lifeStats();
+                    break;
                 case "M":
                     break;
                 default:
@@ -52,7 +53,7 @@ public class DateTimeModeController implements ControllerInterface {
     private void durationBetweenDates(int mode){
         if (mode == 1) System.out.println("Duration between dates");
         else System.out.println("Duration between dates in specific units");
-        Menu date_menu = UTDCView.dateFormats();
+        Menu date_menu = UTDCView.dateFormats(1);
         date_menu.show();
         String option = Input.lerString();
         Temporal start, end;
@@ -117,30 +118,115 @@ public class DateTimeModeController implements ControllerInterface {
         }
     }
 
-    //List available ChronoUnits for a give Temporal object
-    private List<ChronoUnit> available_chronounits(Temporal temp){
-        List<ChronoUnit> units = new ArrayList<>();
-        List<String> units_s = new ArrayList<>();
-        String header = "The following units can be used to set/get the time difference.\n" +
-                "Enter the desired ones separated by spaces";
-        int i = 1;
-        for (ChronoUnit unit : ChronoUnit.values()) {
-            if (temp.isSupported(unit)){
-                units.add(unit);
-                units_s.add(i + "-" + unit.toString());
-                i ++;
-            }
+    private void lifeStats(){
+        System.out.println("Life Analytics");
+        Menu date_menu = UTDCView.dateFormats(0);
+        Menu stats_menu = UTDCView.lifeStatisticsMenu();
+        String option=null;
+        LocalDate t = null, bday = null, now=null;
+        boolean ok=false;
+
+        while(!ok){
+            System.out.print("Insert birthday: ");
+            bday = Input.lerDate();
+            System.out.print("Insert date: ");
+            t = Input.lerDate();
+            now = LocalDate.now();
+            ok = t.isAfter(bday); //Ensure dates are in the the right order
+            if (!ok) System.out.println("Please ensure your birthday precedes the other date");
         }
 
-        UTDCView.printColletion(header, units_s);
+        do{
+            stats_menu.show();
+            option = Input.lerString();
 
-        return units;
+            switch(option){
+                case "A":
+                    this.dbd_function(bday, t);
+                    break;
+                case "W":
+                    this.nextBirthday(bday, now);
+                    break;
+                case "D":
+                    this.birthdays_on_daysofweek(bday, now);
+                    break;
+                case "L":
+                    this.leapYearCount(bday, now);
+                    break;
+                case "M":
+                    break;
+                default:
+                    System.out.println("Invalid option, try again!");
+                    break;
+            }
+        }while(!option.equals("M"));
+    }
+
+    private void birthdays_on_daysofweek(LocalDate bday, LocalDate now){
+        LocalDate day_of_week_adj;
+        MonthDay temp_m_d;
+        MonthDay bday_m_d = MonthDay.of(bday.getMonth(), bday.getDayOfMonth());
+        TemporalAdjuster adj;
+        Map<DayOfWeek, Integer> freq = new HashMap<>();
+        List<String> freq_s = new ArrayList<>();
+        Function<DayOfWeek, String> freq_to_string = (dow) -> dow.getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - ";
+        int total_bday=0, dow_counter;
+
+        for(DayOfWeek dow : DayOfWeek.values()){
+            dow_counter = 0;
+            adj = TemporalAdjusters.nextOrSame(dow);
+            day_of_week_adj = bday.with(adj);
+            while(day_of_week_adj.isBefore(now)){
+                temp_m_d = MonthDay.of(day_of_week_adj.getMonth(), day_of_week_adj.getDayOfMonth());
+                if(temp_m_d.equals(bday_m_d)){
+                    total_bday ++;
+                    dow_counter ++;
+                }
+                day_of_week_adj = day_of_week_adj.plusWeeks(1);
+            }
+            freq.put(dow, dow_counter);
+        }
+
+        for(DayOfWeek dow : freq.keySet()){
+            double relative_freq = freq.get(dow) * 100.f / total_bday;
+            freq_s.add(freq_to_string.apply(dow) + relative_freq + "%");
+        }
+
+        UTDCView.printColletion("*** Day of week frequency table ***", freq_s);
+    }
+
+    private void leapYearCount(LocalDate bday, LocalDate now){
+        LocalDate temp=bday;
+        List<String> leap_years = new ArrayList<>();
+        int counter = 0;
+
+        while(temp.isBefore(now)){
+            if(temp.isLeapYear()){
+                counter ++;
+                leap_years.add(String.valueOf(temp.getYear()));
+            }
+            temp = temp.plusYears(1);
+        }
+        System.out.println("Since you we're born there have been " + counter + " leap years.");
+        UTDCView.printColletion("*** Leap years ***", leap_years);
+    }
+
+    private void nextBirthday(LocalDate bday, LocalDate now){
+        MonthDay bday_m_d = MonthDay.of(bday.getMonth(), bday.getDayOfMonth());
+        LocalDate next_bday = now.with(bday_m_d);
+
+        if(next_bday.isBefore(now))
+            next_bday = next_bday.with(ChronoField.YEAR, now.getYear()+1);
+
+        System.out.print("Your next birthday (" );
+        System.out.print(next_bday.format(DateTimeFormatter.ofPattern(UTDCController.local_date_format)));
+        System.out.println(") is in a " + next_bday.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
     }
 
     //mode = 1 -> Date plus offset; mode = 2 -> Date minus offset
     private Temporal dateOffset(int mode){
         System.out.println("Date/Time with offset");
-        Menu date_menu = UTDCView.dateFormats();
+        Menu date_menu = UTDCView.dateFormats(1);
         String option;
         Temporal t = null;
         boolean ok=false;
@@ -184,6 +270,26 @@ public class DateTimeModeController implements ControllerInterface {
             t = t.plus((mode==1 ? 1 : -1)*l, cu);
         }
         return t;
+    }
+
+    //List available ChronoUnits for a give Temporal object
+    private List<ChronoUnit> available_chronounits(Temporal temp){
+        List<ChronoUnit> units = new ArrayList<>();
+        List<String> units_s = new ArrayList<>();
+        String header = "The following units can be used to measure a time interval.\n" +
+                "Enter the desired ones separated by spaces";
+        int i = 1;
+        for (ChronoUnit unit : ChronoUnit.values()) {
+            if (temp.isSupported(unit)){
+                units.add(unit);
+                units_s.add(i + "-" + unit.toString());
+                i ++;
+            }
+        }
+
+        UTDCView.printColletion(header, units_s);
+
+        return units;
     }
 
     static String timeToString(Temporal t){
