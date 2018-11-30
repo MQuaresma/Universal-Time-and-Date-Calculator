@@ -1,6 +1,7 @@
 package UTDC.Models;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Predicate;
@@ -66,6 +67,10 @@ public class UTDCModel implements Serializable {
 
     public List<String> getEventsByDescription(String description){
         return this.filter_map_Events((e) -> e.getDescription().contains(description));
+    }
+
+    public List<String> getEventsByDayOfWeek(DayOfWeek dayOfWeek){
+        return this.filter_map_Events((e) -> e.getDayOfWeek().equals(dayOfWeek));
     }
 
     //TODO: more flexible search to include LocalDateTime during the event (init + duration)
