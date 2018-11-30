@@ -95,13 +95,14 @@ public class UTDCView {
     }
 
     public static Menu checkEventsMenu(){
-        Opcao op1, op2, op3, op4, op5;
+        Opcao op1, op2, op3, op4, op5, op6;
         op1 = new Opcao("Check all events ....................................", "A");
         op2 = new Opcao("Check future events .................................", "F");
         op3 = new Opcao("Check events in a given date ........................", "D");
         op4 = new Opcao("Check events in x amount of time ....................", "U");
         op5 = new Opcao("Check past events ...................................", "P");
-        List<Opcao> ops = Arrays.asList(op1, op2, op3, op4, op5);
+        op6 = new Opcao("Check all events in x weekday .......................", "W");
+        List<Opcao> ops = Arrays.asList(op1, op2, op3, op4, op5, op6);
         Menu checkMenu = new Menu(ops, "Which events would you like to list?");
         return checkMenu;
     }

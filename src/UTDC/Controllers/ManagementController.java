@@ -10,8 +10,12 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
+import java.time.DayOfWeek;
+import java.time.temporal.TemporalAdjuster;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ManagementController implements ControllerInterface {
     private UTDCModel model;
@@ -85,6 +89,17 @@ public class ManagementController implements ControllerInterface {
                 LocalDateTime before = LocalDateTime.now();
                 List<String> past_info = this.model.getPastEvents(before);
                 UTDCView.printColletion("*** Past events ***", past_info);
+                break;
+            case "W":
+                List<String> week_days = Arrays.asList(DayOfWeek.values())
+                                            .stream()
+                                            .map(d -> d.getDisplayName(TextStyle.FULL, Locale.UK))
+                                            .collect(Collectors.toList());
+                UTDCView.printColletion("Weekdays", week_days);
+                System.out.print("Weekday: ");
+                TemporalAdjuster w_day = Input.lerWeekDay();
+                List<String> events_weekday = this.model.getEventsByWeekday(w_day);
+                UTDCView.printColletion("*** Events at " + w_day.toString() + " ***", events_weekday);
                 break;
             default:
                 break;

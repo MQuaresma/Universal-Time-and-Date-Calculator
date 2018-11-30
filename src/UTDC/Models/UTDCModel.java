@@ -77,6 +77,10 @@ public class UTDCModel implements Serializable {
         return this.filter_map_Events(e -> e.getLocal().contains(location));
     }
 
+    public List<String> getEventsByAttendees(String attendee){
+        return this.filter_map_Events(e -> e.getPeople_envolved().contains(attendee));
+    }
+
     public boolean containsEvent(LocalDateTime date){
         return this.events.stream().anyMatch(e -> e.getDate().equals(date));
     }
