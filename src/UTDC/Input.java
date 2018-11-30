@@ -19,13 +19,15 @@ package UTDC;
 import static java.lang.System.out;
 import static java.lang.System.in;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.time.format.TextStyle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Input {
 
@@ -88,6 +90,28 @@ public class Input {
         }
     }
     return lt;
+ }
+
+ public static DayOfWeek lerWeekDay(){
+     Scanner input = new Scanner(in);
+     boolean ok = false;
+     String date_txt;
+     DayOfWeek dayOfWeek = null;
+     List<String> days = Arrays.asList(DayOfWeek.values())
+             .stream()
+             .map(d -> d.getDisplayName(TextStyle.FULL, Locale.UK))
+             .collect(Collectors.toList());
+     while(!ok){
+         date_txt = input.nextLine().toUpperCase();
+         if (days.contains(date_txt)) {
+             dayOfWeek = DayOfWeek.valueOf(date_txt);
+             ok = true;
+         }
+         else{
+             System.out.println("Invalid day of week, try again!");
+         }
+     }
+     return dayOfWeek;
  }
 
  public static long lerLong() {
