@@ -56,7 +56,7 @@ public class UTDCView {
         op33 = new Opcao("Remove appointment ..................................", "R");
         op34 = new Opcao("Change appointment ..................................", "C");
         op35 = new Opcao("Appointment details .................................", "D");
-        op36 = new Opcao("Main menu ...........................................", "M");
+        op36 = new Opcao("Back ................................................", "B");
         List<Opcao> linhas3 = Arrays.asList(op31, op32, op33, op34, op35, op36);
         Menu slotMenu = new Menu(linhas3, "Slot Management Mode");
         menusUTDC.addMenu(3, slotMenu);
@@ -98,6 +98,16 @@ public class UTDCView {
         List<Opcao> ops = Arrays.asList(op1, op2, op3);
         Menu timeZoneConvMenu = new Menu(ops, "What type of conversion do you want to perform?");
         return timeZoneConvMenu;
+    }
+
+    public static Menu managementLoginRegist(){
+        Opcao op1, op2, op3;
+        op1 = new Opcao("Login ...............................................", "L");
+        op2 = new Opcao("New user registration ...............................", "R");
+        op3 = new Opcao("Main menu ...........................................", "M");
+        List<Opcao> ops = Arrays.asList(op1, op2, op3);
+        Menu management = new Menu(ops, "Management initial menu");
+        return management;
     }
 
     public static Menu checkEventsMenu(){

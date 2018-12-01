@@ -35,6 +35,7 @@ public class EventModel implements Serializable {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+        this.dayOfWeek = this.date.getDayOfWeek();
     }
 
     public List<String> getPeople_envolved() {

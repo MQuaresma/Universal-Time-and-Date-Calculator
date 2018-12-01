@@ -23,6 +23,7 @@ import java.io.ObjectOutputStream;
 
 public class UTDCApp {
 
+    /*
     private static UTDCModel createData(){
         List<EventModel> events = new ArrayList<EventModel>();
 
@@ -43,19 +44,20 @@ public class UTDCApp {
 
         return new UTDCModel(events);
     }
+    */
 
     public static void main(String[] args) {
         // UTDCModel model = createData();
         UTDCModel model;
         try{
-            FileInputStream fi = new FileInputStream(new File("utdc.config"));
+            FileInputStream fi = new FileInputStream("utdc.config");
             ObjectInputStream oi = new ObjectInputStream(fi);
             model = (UTDCModel) oi.readObject();
             oi.close();
             fi.close();
         }catch(IOException | ClassNotFoundException e){
             System.out.println("Unable to load restored previous status, resetting.");
-            model = createData();
+            model = new UTDCModel();
         }
 
         UTDCView view = new UTDCView();
@@ -69,10 +71,12 @@ public class UTDCApp {
         System.out.println("End of session >> " + java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
 
         try{
-            FileOutputStream fo = new FileOutputStream(new File("utdc.config"));
+            FileOutputStream fo = new FileOutputStream("utdc.config");
             ObjectOutputStream oo = new ObjectOutputStream(fo);
 
             oo.writeObject(model);
+            oo.flush();
+            oo.close();
             System.out.println("Current status saved in utdc.config.");
         }catch(IOException e){
             System.out.println("An error has occurred, couldn't save current agenda state.");

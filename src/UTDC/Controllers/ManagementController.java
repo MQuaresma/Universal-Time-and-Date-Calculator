@@ -18,7 +18,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ManagementController implements ControllerInterface {
+
     private UTDCModel model;
+    private String username;
 
     public void setView(UTDCView v){
     }
@@ -28,6 +30,48 @@ public class ManagementController implements ControllerInterface {
     }
 
     public void startFlow(Menu menu){
+        Menu initMenu = UTDCView.managementLoginRegist();
+        String opcao, user, password, name;
+        do {
+            initMenu.show();
+            opcao = Input.lerString().toUpperCase();
+            switch (opcao){
+                case "L":
+                    System.out.print("Username: ");
+                    user = Input.lerString();
+                    System.out.print("Password: ");
+                    password = Input.lerString();
+                    int login = model.login(user, password);
+                    if (login == 1){
+                        this.username = user;
+                        System.out.println("Login completed successfully!\nWelcome " + model.getUserName(user) + ".");
+                        this.managementUserFlow(menu);
+                    }
+                    else if (login == 2) System.out.println("The username introduced does not exist!");
+                    else System.out.println("The password introduced is wrong!");
+                    break;
+                case "R":
+                    System.out.print("Username: ");
+                    user = Input.lerString();
+                    System.out.print("Name: ");
+                    name = Input.lerString();
+                    System.out.print("Password: ");
+                    password = Input.lerString();
+                    int r = model.registUser(user, name, password);
+                    if (r == 1) System.out.println("Registration completed successfully!");
+                    else System.out.println("The introduced username already exists!");
+                    break;
+                case "M":
+                    break;
+                default:
+                    System.out.println("Invalid option!");
+                    break;
+            }
+        } while (!opcao.equals("M"));
+
+    }
+
+    public void managementUserFlow(Menu menu){
         String opcao;
         do {
             menu.show();
@@ -48,13 +92,13 @@ public class ManagementController implements ControllerInterface {
                 case "D":
                     this.appointmentDetails();
                     break;
-                case "M":
+                case "B":
                     break;
                 default:
                     System.out.println("Invalid option!");
                     break;
             }
-        } while (!opcao.equals("M"));
+        } while (!opcao.equals("B"));
     }
 
     private void checkEvents(){
@@ -64,12 +108,12 @@ public class ManagementController implements ControllerInterface {
         op = Input.lerString().toUpperCase();
         switch(op){
             case "A":
-                List<String> event_info = this.model.getShortEvents();
+                List<String> event_info = this.model.getShortEvents(this.username);
                 UTDCView.printColletion("*** Event Summary ***", event_info);
                 break;
             case "F":
                 LocalDateTime after = LocalDateTime.now();
-                List<String> future_info = this.model.getFutureEvents(after);
+                List<String> future_info = this.model.getFutureEvents(this.username,after);
                 UTDCView.printColletion("*** Upcoming events ***", future_info);
                 break;
             case "D":
@@ -79,7 +123,7 @@ public class ManagementController implements ControllerInterface {
                 input = Input.lerDate();
                 start= input.atTime(0,0,0);
                 end = input.atTime(23,59,59);
-                List<String> events_date = this.model.getEventsTimeInterval(start,end);
+                List<String> events_date = this.model.getEventsTimeInterval(this.username,start,end);
                 UTDCView.printColletion("*** Events in given date ***",events_date );
                 break;
             case "U":
@@ -87,7 +131,7 @@ public class ManagementController implements ControllerInterface {
                 break;
             case "P":
                 LocalDateTime before = LocalDateTime.now();
-                List<String> past_info = this.model.getPastEvents(before);
+                List<String> past_info = this.model.getPastEvents(this.username,before);
                 UTDCView.printColletion("*** Past events ***", past_info);
                 break;
             case "W":
@@ -98,7 +142,7 @@ public class ManagementController implements ControllerInterface {
                 UTDCView.printColletion("Weekdays", week_days);
                 System.out.print("Weekday: ");
                 DayOfWeek w_day = Input.lerWeekDay();
-                List<String> events_weekday = this.model.getEventsByDayOfWeek(w_day);
+                List<String> events_weekday = this.model.getEventsByDayOfWeek(this.username,w_day);
                 UTDCView.printColletion("*** Events at " + w_day.toString() + " ***", events_weekday);
                 break;
             default:
@@ -137,7 +181,7 @@ public class ManagementController implements ControllerInterface {
             }
         }
 
-        List<String> upcoming_events = this.model.getEventsTimeInterval(now, frame_end);
+        List<String> upcoming_events = this.model.getEventsTimeInterval(this.username, now, frame_end);
         UTDCView.printColletion("*** Upcoming Events ***", upcoming_events);
     }
 
@@ -185,7 +229,7 @@ public class ManagementController implements ControllerInterface {
         }
         em.setDuration(Duration.between(date,end));
 
-        List<EventModel> events = this.model.getEventsRaw();
+        List<EventModel> events = this.model.getEventsRaw(this.username);
         boolean valid=true;
 
         for(EventModel ev: events){
@@ -196,7 +240,7 @@ public class ManagementController implements ControllerInterface {
         }
 
         if(valid) {
-            this.model.addEvent(em);
+            this.model.addEvent(this.username, em);
             System.out.println("Event added successfully with the following properties:");
             System.out.println(em.getInfoDetails());
         }else{
@@ -212,10 +256,10 @@ public class ManagementController implements ControllerInterface {
             UTDCView.printColletion("*** Events matching the criteira ***", ev);
             System.out.print("Insert the exact date of the event you'd like to remove: ");
             LocalDateTime timestamp = Input.lerDateTime();
-            if(!this.model.containsEvent(timestamp))
+            if(!this.model.containsEvent(username, timestamp))
                 System.out.println("No event found with given Date-Time");
             else
-                this.model.removeEventAt(timestamp);
+                this.model.removeEventAt(this.username, timestamp);
         }
     }
 
@@ -232,22 +276,22 @@ public class ManagementController implements ControllerInterface {
             case "T":
                 System.out.print("Title: ");
                 search_param = Input.lerString();
-                matches = this.model.getEventsByTitle(search_param);
+                matches = this.model.getEventsByTitle(this.username,search_param);
                 break;
             case "D":
                 System.out.print("Description: ");
                 search_param = Input.lerString();
-                matches = this.model.getEventsByDescription(search_param);
+                matches = this.model.getEventsByDescription(this.username,search_param);
                 break;
             case "L":
                 System.out.print("Location: ");
                 search_param = Input.lerString();
-                matches = this.model.getEventsByLocation(search_param);
+                matches = this.model.getEventsByLocation(this.username,search_param);
                 break;
             case "W":
                 System.out.print("Date-Time: ");
                 LocalDateTime ev_date = Input.lerDateTime();
-                matches = this.model.getEventsByDate(ev_date);
+                matches = this.model.getEventsByDate(this.username,ev_date);
                 break;
             default:
                 break;
@@ -258,10 +302,10 @@ public class ManagementController implements ControllerInterface {
     private void changeEvent(){
         System.out.print("Insert the Date-Time of the event you want to change: ");
         LocalDateTime date = Input.lerDateTime();
-        if (!this.model.containsEvent(date)){
+        if (!this.model.containsEvent(this.username,date)){
             System.out.println("There is not an event with such Date-Time!");
         }else{
-            EventModel em = this.model.getEvent(date);
+            EventModel em = this.model.getEvent(this.username,date);
             Menu change = UTDCView.changeEventPropertyMenu();
             change.show();
             String op = Input.lerString();
@@ -350,10 +394,10 @@ public class ManagementController implements ControllerInterface {
     private void appointmentDetails(){
         System.out.print("Insert the Date-Time of the event you want to check the details: ");
         LocalDateTime date = Input.lerDateTime();
-        if (!this.model.containsEvent(date)){
+        if (!this.model.containsEvent(this.username,date)){
             System.out.println("There is not an event with such Date-Time!");
         }else{
-            EventModel event = this.model.getEvent(date);
+            EventModel event = this.model.getEvent(this.username,date);
             String details = event.getInfoDetails();
             System.out.println(details);
         }
