@@ -99,11 +99,11 @@ public class UTDCModel implements Serializable {
     }
 
     public List<String> getEventsByTitle(String username, String title){
-        return  this.filter_map_Events(username, (e) -> e.getTitle().equals(title));
+        return  this.filter_map_Events(username, (e) -> e.getTitle().toLowerCase().contains(title.toLowerCase()));
     }
 
     public List<String> getEventsByDescription(String username, String description){
-        return this.filter_map_Events(username, (e) -> e.getDescription().contains(description));
+        return this.filter_map_Events(username, (e) -> e.getDescription().toLowerCase().contains(description.toLowerCase()));
     }
 
     public List<String> getEventsByDayOfWeek(String username, DayOfWeek dayOfWeek){
@@ -115,7 +115,7 @@ public class UTDCModel implements Serializable {
     }
 
     public List<String> getEventsByLocation(String username, String location){
-        return this.filter_map_Events(username, e -> e.getLocal().contains(location));
+        return this.filter_map_Events(username, e -> e.getLocal().toLowerCase().contains(location.toLowerCase()));
     }
 
     public List<String> getEventsByAttendees(String username, String attendee){

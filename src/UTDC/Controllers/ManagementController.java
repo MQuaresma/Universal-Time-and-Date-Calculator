@@ -137,7 +137,7 @@ public class ManagementController implements ControllerInterface {
             case "W":
                 List<String> week_days = Arrays.asList(DayOfWeek.values())
                                             .stream()
-                                            .map(d -> d.getDisplayName(TextStyle.FULL, Locale.getDefault()))
+                                            .map(d -> d.getDisplayName(TextStyle.FULL, Locale.ENGLISH))
                                             .collect(Collectors.toList());
                 UTDCView.printColletion("Weekdays", week_days);
                 System.out.print("Weekday: ");
@@ -258,8 +258,10 @@ public class ManagementController implements ControllerInterface {
             LocalDateTime timestamp = Input.lerDateTime();
             if(!this.model.containsEvent(username, timestamp))
                 System.out.println("No event found with given Date-Time");
-            else
+            else {
                 this.model.removeEventAt(this.username, timestamp);
+                System.out.println("Event removed!");
+            }
         }
     }
 
@@ -271,7 +273,7 @@ public class ManagementController implements ControllerInterface {
         Menu menu = UTDCView.eventPropertyMenu();
 
         menu.show();
-        op = Input.lerString();
+        op = Input.lerString().toUpperCase();
         switch(op){
             case "T":
                 System.out.print("Title: ");

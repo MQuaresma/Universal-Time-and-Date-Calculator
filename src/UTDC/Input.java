@@ -99,7 +99,7 @@ public class Input {
      DayOfWeek dayOfWeek = null;
      List<String> days = Arrays.asList(DayOfWeek.values())
              .stream()
-             .map(d -> d.getDisplayName(TextStyle.FULL, Locale.UK))
+             .map(d -> d.getDisplayName(TextStyle.FULL, Locale.ENGLISH))
              .collect(Collectors.toList());
      while(!ok){
          date_txt = input.nextLine().toUpperCase();
