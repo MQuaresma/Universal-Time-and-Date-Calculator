@@ -72,16 +72,17 @@ public class UTDCModel implements Serializable {
     }
 
     public List<String> getShortEvents(String username){
-        return this.events.get(username).stream().map(e -> e.getInfoShort()).collect(Collectors.toList());
+        return this.events.get(username).stream().sorted().map(e -> e.getInfoShort()).collect(Collectors.toList());
     }
 
     public List<String> getDetailsEvents(String username){
-        return this.events.get(username).stream().map(e -> e.getInfoDetails()).collect(Collectors.toList());
+        return this.events.get(username).stream().sorted().map(e -> e.getInfoDetails()).collect(Collectors.toList());
     }
 
     public List<String> filter_map_Events(String username, Predicate<EventModel> p){
         return this.events.get(username).stream()
                                         .filter(e -> p.test(e))
+                                        .sorted()
                                         .map(e -> e.getInfoShort())
                                         .collect(Collectors.toList());
     }

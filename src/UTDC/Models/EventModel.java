@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class EventModel implements Serializable {
+public class EventModel implements Serializable, Comparable<EventModel>{
 
     private LocalDateTime date;
     private Duration duration;
@@ -27,6 +27,10 @@ public class EventModel implements Serializable {
         this.local = local;
         this.dayOfWeek = date.getDayOfWeek();
         this.duration = Duration.ZERO;
+    }
+
+    public int compareTo(EventModel em) {
+        return this.date.compareTo(em.getDate());
     }
 
     public LocalDateTime getDate() {

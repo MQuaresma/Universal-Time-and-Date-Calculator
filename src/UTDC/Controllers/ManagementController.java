@@ -132,6 +132,7 @@ public class ManagementController implements ControllerInterface {
             case "P":
                 LocalDateTime before = LocalDateTime.now();
                 List<String> past_info = this.model.getPastEvents(this.username,before);
+                Collections.reverse(past_info);
                 UTDCView.printColletion("*** Past events ***", past_info);
                 break;
             case "W":
