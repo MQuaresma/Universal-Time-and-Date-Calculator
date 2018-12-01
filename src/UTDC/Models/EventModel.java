@@ -2,13 +2,14 @@ package UTDC.Models;
 
 import UTDC.Controllers.UTDCController;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class EventModel {
+public class EventModel implements Serializable {
 
     private LocalDateTime date;
     private Duration duration;
