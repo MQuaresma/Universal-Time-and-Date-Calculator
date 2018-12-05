@@ -2,8 +2,7 @@ package UTDC.Controllers;
 
 import UTDC.Input;
 import UTDC.Models.UTDCModel;
-import UTDC.Views.Menu;
-import UTDC.Views.UTDCView;
+import UTDC.Views.*;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -12,13 +11,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TimeZoneController implements ControllerInterface {
-    public void setView(UTDCView v){
+    private TimeZoneView view;
+
+    public void setView(ViewInterface v){
+        this.view = (TimeZoneView) v;
     }
 
     public void setModel(UTDCModel m){
     }
 
-    public void startFlow(Menu menu){
+    public void startFlow(){
+        Menu menu = this.view.getMenu(1);
+
         String opcao;
         do {
             menu.show();
@@ -48,7 +52,7 @@ public class TimeZoneController implements ControllerInterface {
     private void showTimeZones() {
         Set<String> timezones = ZoneId.getAvailableZoneIds();
 
-        UTDCView.printColletion("All available Time Zones:", timezones);
+        this.view.printColletion("All available Time Zones:", timezones);
     }
 
     private void findTimeZones(){
@@ -60,7 +64,7 @@ public class TimeZoneController implements ControllerInterface {
 
         while (!opcao.equals("M")){
             Set<String> matching_zones = this.filterTimeZones(timezones, ".*" + "(?i:" + opcao + ").*");
-            UTDCView.printColletion("Matching Time Zones:", matching_zones);
+            this.view.printColletion("Matching Time Zones:", matching_zones);
 
             System.out.println("Find TimeZone: (M -> Main Menu) ");
             opcao = Input.lerString().toUpperCase();
@@ -72,7 +76,7 @@ public class TimeZoneController implements ControllerInterface {
     }
 
     private void calculateTimezones(){
-        Menu tz = UTDCView.optionsTimeZone();
+        Menu tz = this.view.getMenu(2);
         String option;
         ZoneId zone1 = null;
         ZoneId zone2 = null;
@@ -127,7 +131,7 @@ public class TimeZoneController implements ControllerInterface {
     }
 
     private void checkTimeZoneTime(){
-        UTDCView.timeZoneTime();
+        this.view.timeZoneTimePrompt();
         ZoneId z_id = readTimezone();
         String zone_time = LocalDateTime.now(z_id).format(DateTimeFormatter.ofPattern(UTDCController.local_time_date_format));
         System.out.println("Current date-time at " + z_id.toString() + " : " + zone_time);

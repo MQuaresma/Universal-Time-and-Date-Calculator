@@ -1,11 +1,10 @@
 package UTDC.Controllers;
 
 import UTDC.Models.UTDCModel;
-import UTDC.Views.Menu;
-import UTDC.Views.UTDCView;
+import UTDC.Views.ViewInterface;
 
 public interface ControllerInterface {
-    void setView(UTDCView v);
+    void setView(ViewInterface v);
     void setModel(UTDCModel m);
-    void startFlow(Menu menu);
+    void startFlow();
 }

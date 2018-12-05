@@ -5,10 +5,6 @@ import UTDC.Views.Menu;
 import UTDC.Models.UTDCModel;
 import UTDC.Views.UTDCView;
 
-import java.time.LocalDate;
-
-import static java.time.temporal.ChronoUnit.*;
-
 public class UTDCController {
 
     private UTDCModel model;
@@ -30,8 +26,19 @@ public class UTDCController {
         this.model = m;
     }
 
+    public void setDateTimeController(ControllerInterface dateTimeController) {
+        this.dateTimeController = dateTimeController;
+    }
+
+    public void setManagementController(ControllerInterface managementController) {
+        this.managementController = managementController;
+    }
+
+    public void setTimeZoneController(ControllerInterface timeZoneController) {
+        this.timeZoneController = timeZoneController;
+    }
+
     public void startFlow(){
-        this.initControllers();
         Menu menu = view.getMenu(1);
         String opcao;
         do{
@@ -39,13 +46,13 @@ public class UTDCController {
             opcao = Input.lerString().toUpperCase();
             switch (opcao){
                 case "D":
-                    this.dateTimeController.startFlow(view.getMenu(2));
+                    this.dateTimeController.startFlow();
                     break;
                 case "M":
-                    this.managementController.startFlow(view.getMenu(3));
+                    this.managementController.startFlow();
                     break;
                 case "T":
-                    this.timeZoneController.startFlow(view.getMenu(4));
+                    this.timeZoneController.startFlow();
                     break;
                 case "E":
                     break;
@@ -55,12 +62,4 @@ public class UTDCController {
             }
         } while (!opcao.equals("E"));
     }
-
-    private void initControllers(){
-        this.dateTimeController = new DateTimeModeController();
-        this.managementController = new ManagementController();
-        this.timeZoneController = new TimeZoneController();
-        this.managementController.setModel(this.model);
-    }
-
 }

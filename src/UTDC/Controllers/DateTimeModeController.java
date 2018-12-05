@@ -3,7 +3,8 @@ package UTDC.Controllers;
 import UTDC.Input;
 import UTDC.Models.UTDCModel;
 import UTDC.Views.Menu;
-import UTDC.Views.UTDCView;
+import UTDC.Views.ViewInterface;
+import UTDC.Views.DateTimeView;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -13,13 +14,18 @@ import java.util.*;
 import java.util.function.Function;
 
 public class DateTimeModeController implements ControllerInterface {
-    public void setView(UTDCView v){
+    private DateTimeView view;
+
+    public void setView(ViewInterface v){
+        this.view = (DateTimeView) v;
     }
 
     public void setModel(UTDCModel m){
     }
 
-    public void startFlow(Menu menu){
+    public void startFlow(){
+        Menu menu = this.view.getMenu(1);
+
         String opcao;
         do {
             menu.show();
@@ -53,7 +59,7 @@ public class DateTimeModeController implements ControllerInterface {
     private void durationBetweenDates(int mode){
         if (mode == 1) System.out.println("Duration between dates");
         else System.out.println("Duration between dates in specific units");
-        Menu date_menu = UTDCView.dateFormats(1);
+        Menu date_menu = this.view.dateFormats(1);
         date_menu.show();
         String option = Input.lerString();
         Temporal start, end;
@@ -120,8 +126,8 @@ public class DateTimeModeController implements ControllerInterface {
 
     private void lifeStats(){
         System.out.println("Life Analytics");
-        Menu date_menu = UTDCView.dateFormats(0);
-        Menu stats_menu = UTDCView.lifeStatisticsMenu();
+        Menu date_menu = this.view.dateFormats(0);
+        Menu stats_menu = this.view.getMenu(2);
         String option=null;
         LocalDate t = null, bday = null, now=null;
         boolean ok=false;
@@ -192,7 +198,7 @@ public class DateTimeModeController implements ControllerInterface {
             freq_s.add(freq_to_string.apply(dow) + relative_freq + "%");
         }
 
-        UTDCView.printColletion("*** Day of week frequency table ***", freq_s);
+        this.view.printColletion("*** Day of week frequency table ***", freq_s);
     }
 
     private void leapYearCount(LocalDate bday, LocalDate now){
@@ -208,7 +214,7 @@ public class DateTimeModeController implements ControllerInterface {
             temp = temp.plusYears(1);
         }
         System.out.println("Since you we're born there have been " + counter + " leap years.");
-        UTDCView.printColletion("*** Leap years ***", leap_years);
+        this.view.printColletion("*** Leap years ***", leap_years);
     }
 
     private void nextBirthday(LocalDate bday, LocalDate now){
@@ -226,7 +232,7 @@ public class DateTimeModeController implements ControllerInterface {
     //mode = 1 -> Date plus offset; mode = 2 -> Date minus offset
     private Temporal dateOffset(int mode){
         System.out.println("Date/Time with offset");
-        Menu date_menu = UTDCView.dateFormats(1);
+        Menu date_menu = this.view.dateFormats(1);
         String option;
         Temporal t = null;
         boolean ok=false;
@@ -287,7 +293,7 @@ public class DateTimeModeController implements ControllerInterface {
             }
         }
 
-        UTDCView.printColletion(header, units_s);
+        this.view.printColletion(header, units_s);
 
         return units;
     }
