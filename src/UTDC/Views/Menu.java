@@ -2,6 +2,7 @@ package UTDC.Views;
 
 import UTDC.Models.Opcao;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Menu {
@@ -24,6 +25,8 @@ public class Menu {
 
     public void show(){
         System.out.println("\n\n-----------------------------------------------------");
+        System.out.println("Hora atual: " + java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+        System.out.println("-----------------------------------------------------");
         System.out.println("                 " + this.nome);
         System.out.println("-----------------------------------------------------\n");
         for (Opcao o : this.linhas)

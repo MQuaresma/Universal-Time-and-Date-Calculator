@@ -80,12 +80,13 @@ public class UTDCView {
         Opcao op1, op2, op3;
         op1 = new Opcao("dd-MM-yyyy ...........................................", "1");
         op2 = new Opcao("dd-MM-yyyy HH:mm:ss ..................................", "2");
-        List<Opcao> ops = Arrays.asList(op1, op2);
+        List<Opcao> ops;
 
         if(full == 1){
             op3 = new Opcao("HH:mm:ss .............................................", "3");
-            ops.add(op3);
+            ops = Arrays.asList(op1, op2, op3);
         }
+        else ops = Arrays.asList(op1, op2);
 
         return new Menu(ops, "Available date/time formats");
     }
