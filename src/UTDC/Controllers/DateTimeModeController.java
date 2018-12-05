@@ -6,6 +6,7 @@ import UTDC.Views.Menu;
 import UTDC.Views.ViewInterface;
 import UTDC.Views.DateTimeView;
 
+import java.text.DecimalFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -132,22 +133,22 @@ public class DateTimeModeController implements ControllerInterface {
         LocalDate t = null, bday = null, now=null;
         boolean ok=false;
 
-        while(!ok){
-            System.out.print("Insert birthday: ");
-            bday = Input.lerDate();
-            System.out.print("Insert date: ");
-            t = Input.lerDate();
-            now = LocalDate.now();
-            ok = t.isAfter(bday); //Ensure dates are in the the right order
-            if (!ok) System.out.println("Please ensure your birthday precedes the other date");
-        }
+        System.out.print("Insert birthday: ");
+        bday = Input.lerDate();
 
         do{
             stats_menu.show();
-            option = Input.lerString();
+            option = Input.lerString().toUpperCase();
 
             switch(option){
                 case "A":
+                    while (!ok){
+                        System.out.print("Insert date: ");
+                        t = Input.lerDate();
+                        now = LocalDate.now();
+                        ok = t.isAfter(bday); //Ensure dates are in the the right order
+                        if (!ok) System.out.println("Please ensure your birthday precedes the other date");
+                    }
                     this.dbd_function(bday, t);
                     break;
                 case "W":
@@ -175,7 +176,7 @@ public class DateTimeModeController implements ControllerInterface {
         TemporalAdjuster adj;
         Map<DayOfWeek, Integer> freq = new HashMap<>();
         List<String> freq_s = new ArrayList<>();
-        Function<DayOfWeek, String> freq_to_string = (dow) -> dow.getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - ";
+        Function<DayOfWeek, String> freq_to_string = (dow) -> dow.getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " - ";
         int total_bday=0, dow_counter;
 
         for(DayOfWeek dow : DayOfWeek.values()){
@@ -195,7 +196,7 @@ public class DateTimeModeController implements ControllerInterface {
 
         for(DayOfWeek dow : freq.keySet()){
             double relative_freq = freq.get(dow) * 100.f / total_bday;
-            freq_s.add(freq_to_string.apply(dow) + relative_freq + "%");
+            freq_s.add(freq_to_string.apply(dow) + new DecimalFormat("#0.00").format(relative_freq) + "%");
         }
 
         this.view.printColletion("*** Day of week frequency table ***", freq_s);
@@ -226,7 +227,7 @@ public class DateTimeModeController implements ControllerInterface {
 
         System.out.print("Your next birthday (" );
         System.out.print(next_bday.format(DateTimeFormatter.ofPattern(UTDCController.local_date_format)));
-        System.out.println(") is in a " + next_bday.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+        System.out.println(") is in a " + next_bday.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
     }
 
     //mode = 1 -> Date plus offset; mode = 2 -> Date minus offset
