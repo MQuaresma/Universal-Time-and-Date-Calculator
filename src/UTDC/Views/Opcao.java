@@ -1,4 +1,4 @@
-package UTDC.Models;
+package UTDC.Views;
 
 public class Opcao {
 

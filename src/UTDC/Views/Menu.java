@@ -1,7 +1,5 @@
 package UTDC.Views;
 
-import UTDC.Models.Opcao;
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 

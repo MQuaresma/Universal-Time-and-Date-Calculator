@@ -15,6 +15,9 @@ package UTDC;
  * 
  * @author F. Mário Martins
  * @version 1.0 (6/2006)
+ *
+ * @authors João V.; Miguel Q.; Simão B.
+ * @version 2.0 (12/2018)
  */
 import static java.lang.System.out;
 import static java.lang.System.in;

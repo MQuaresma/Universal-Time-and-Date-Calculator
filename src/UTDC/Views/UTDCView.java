@@ -1,9 +1,5 @@
 package UTDC.Views;
 
-import UTDC.Models.Opcao;
-
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class UTDCView implements ViewInterface{
