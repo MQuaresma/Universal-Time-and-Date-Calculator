@@ -38,15 +38,15 @@ public class Input {
   * Métodos de Classe
   */
 
- public static LocalDate lerDate(){
+ public static LocalDate lerDate(String format){
      Scanner input = new Scanner(in);
      boolean ok = false;
      String date_txt;
      LocalDate dt = null;
-     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
      while(!ok){
          try{
-             out.println("(Expected format: dd-MM-yyyy)");
+             out.println("(Expected format: "+format);
              date_txt = input.nextLine();
              dt = LocalDate.parse(date_txt, formatter);
              ok = true;
@@ -57,15 +57,15 @@ public class Input {
      return dt;
  }
 
- public static LocalDateTime lerDateTime(){
+ public static LocalDateTime lerDateTime(String format){
     Scanner input = new Scanner(in);
     boolean ok = false;
     String date_txt;
     LocalDateTime dt = null;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     while(!ok){
         try{
-            out.println("(Expected format: dd-MM-yyyy HH:mm:ss)");
+            out.println("(Expected format: "+ format);
             date_txt = input.nextLine();
             dt = LocalDateTime.parse(date_txt, formatter);
             ok = true;
@@ -76,15 +76,15 @@ public class Input {
     return dt;
 }
 
- public static LocalTime lerTime(){
+ public static LocalTime lerTime(String format){
     Scanner input = new Scanner(in);
     boolean ok = false;
     String date_txt;
     LocalTime lt = null;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     while(!ok){
         try{
-            out.println("(Expected format: HH:mm:ss)");
+            out.println("(Expected format: " + format);
             date_txt = input.nextLine();
             lt = LocalTime.parse(date_txt, formatter);
             ok = true;

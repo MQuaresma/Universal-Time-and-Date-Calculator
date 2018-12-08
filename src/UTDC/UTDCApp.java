@@ -4,21 +4,13 @@ import UTDC.Controllers.DateTimeModeController;
 import UTDC.Controllers.ManagementController;
 import UTDC.Controllers.TimeZoneController;
 import UTDC.Controllers.UTDCController;
-import UTDC.Models.EventModel;
 import UTDC.Models.UTDCModel;
 import UTDC.Views.DateTimeView;
 import UTDC.Views.ManagementView;
 import UTDC.Views.TimeZoneView;
 import UTDC.Views.UTDCView;
-
-import java.awt.*;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,7 +20,6 @@ import java.io.ObjectOutputStream;
 public class UTDCApp {
 
     public static void main(String[] args) {
-        // UTDCModel model = createData();
         UTDCModel model = loadModel();
 
         UTDCView view = new UTDCView();

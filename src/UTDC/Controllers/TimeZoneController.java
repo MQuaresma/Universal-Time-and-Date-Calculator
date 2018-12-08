@@ -111,7 +111,7 @@ public class TimeZoneController implements ControllerInterface {
             }
         }
         System.out.print("Insert date in initial zone: ");
-        LocalDateTime ldt = Input.lerDateTime();
+        LocalDateTime ldt = Input.lerDateTime(UTDCController.local_time_date_format);
         ZonedDateTime zdt = ZonedDateTime.of(ldt,zone1).withZoneSameInstant(zone2);
 
         String time1 = ldt.format(DateTimeFormatter.ofPattern(UTDCController.local_time_date_format));

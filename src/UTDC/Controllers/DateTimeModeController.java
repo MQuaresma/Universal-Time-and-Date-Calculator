@@ -67,25 +67,25 @@ public class DateTimeModeController implements ControllerInterface {
         switch (option){
             case "1":
                 System.out.print("Initial date: ");
-                start = Input.lerDate();
+                start = Input.lerDateTime(UTDCController.local_date_format);
                 System.out.print("End date: ");
-                end = Input.lerDate();
+                end = Input.lerDateTime(UTDCController.local_date_format);
                 if (mode == 1) this.durationBetweenDatesSimple(start, end);
                 else this.dbd_function(start,end);
                 break;
             case "2":
                 System.out.print("Initial date: ");
-                start = Input.lerDateTime();
+                start = Input.lerDateTime(UTDCController.local_time_date_format);
                 System.out.print("End date: ");
-                end = Input.lerDateTime();
+                end = Input.lerDateTime(UTDCController.local_time_date_format);
                 if (mode == 1) this.durationBetweenDatesSimple(start, end);
                 else this.dbd_function(start,end);
                 break;
             case "3":
                 System.out.print("Initial time: ");
-                start = Input.lerTime();
+                start = Input.lerDateTime(UTDCController.local_time_format);
                 System.out.print("End time: ");
-                end = Input.lerTime();
+                end = Input.lerDateTime(UTDCController.local_time_format);
                 if (mode == 1) this.durationBetweenDatesSimple(start, end);
                 else this.dbd_function(start,end);
             default:
@@ -134,7 +134,7 @@ public class DateTimeModeController implements ControllerInterface {
         boolean ok=false;
 
         System.out.print("Insert birthday: ");
-        bday = Input.lerDate();
+        bday = Input.lerDate(UTDCController.local_date_format);
 
         do{
             stats_menu.show();
@@ -144,7 +144,7 @@ public class DateTimeModeController implements ControllerInterface {
                 case "A":
                     while (!ok){
                         System.out.print("Insert date: ");
-                        t = Input.lerDate();
+                        t = Input.lerDate(UTDCController.local_date_format);
                         now = LocalDate.now();
                         ok = t.isAfter(bday); //Ensure dates are in the the right order
                         if (!ok) System.out.println("Please ensure your birthday precedes the other date");
@@ -244,17 +244,17 @@ public class DateTimeModeController implements ControllerInterface {
             switch (option){
                 case "1":
                     System.out.print("Insert date: ");
-                    t = Input.lerDate();
+                    t = Input.lerDateTime(UTDCController.local_date_format);
                     ok=true;
                     break;
                 case "2":
                     System.out.print("Insert date: ");
-                    t = Input.lerDateTime();
+                    t = Input.lerDateTime(UTDCController.local_time_date_format);
                     ok=true;
                     break;
                 case "3":
                     System.out.print("Insert time: ");
-                    t = Input.lerTime();
+                    t = Input.lerDateTime(UTDCController.local_time_format);
                     ok=true;
                     break;
                 default:

@@ -127,7 +127,7 @@ public class ManagementController implements ControllerInterface {
                 LocalDate input;
                 LocalDateTime start, end;
                 System.out.print("Initial date: ");
-                input = Input.lerDate();
+                input = Input.lerDate(UTDCController.local_date_format);
                 start= input.atTime(0,0,0);
                 end = input.atTime(23,59,59);
                 List<String> events_date = this.model.getEventsTimeInterval(this.username,start,end);
@@ -204,7 +204,7 @@ public class ManagementController implements ControllerInterface {
         String[] people = Input.lerString().split("\\s*,\\s*");
         List<String> people_envolved = new ArrayList<String>(Arrays.asList(people));
         System.out.print("Which is the Date-Time when the event begin: ");
-        LocalDateTime date = Input.lerDateTime();
+        LocalDateTime date = Input.lerDateTime(UTDCController.local_time_date_format);
 
         EventModel em = new EventModel(date,people_envolved,title,description,local);
 
@@ -263,7 +263,7 @@ public class ManagementController implements ControllerInterface {
         }else{
             this.view.printColletion("*** Events matching the criteira ***", ev);
             System.out.print("Insert the exact date of the event you'd like to remove: ");
-            LocalDateTime timestamp = Input.lerDateTime();
+            LocalDateTime timestamp = Input.lerDateTime(UTDCController.local_time_date_format);
             if(!this.model.containsEvent(username, timestamp))
                 System.out.println("No event found with given Date-Time");
             else {
@@ -300,7 +300,7 @@ public class ManagementController implements ControllerInterface {
                 break;
             case "W":
                 System.out.print("Date-Time: ");
-                LocalDateTime ev_date = Input.lerDateTime();
+                LocalDateTime ev_date = Input.lerDateTime(UTDCController.local_time_date_format);
                 matches = this.model.getEventsByDate(this.username,ev_date);
                 break;
             default:
@@ -311,7 +311,7 @@ public class ManagementController implements ControllerInterface {
 
     private void changeEvent(){
         System.out.print("Insert the Date-Time of the event you want to change: ");
-        LocalDateTime date = Input.lerDateTime();
+        LocalDateTime date = Input.lerDateTime(UTDCController.local_time_date_format);
         if (!this.model.containsEvent(this.username,date)){
             System.out.println("There is not an event with such Date-Time!");
         }else{
@@ -330,7 +330,7 @@ public class ManagementController implements ControllerInterface {
                 case "2":
                     System.out.println("The event Date-Time is set to: " + em.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
                     System.out.print("Insert the new date: ");
-                    LocalDateTime new_date = Input.lerDateTime();
+                    LocalDateTime new_date = Input.lerDateTime(UTDCController.local_time_date_format);
                     em.setDate(new_date);
                     System.out.println("Event date changed with success.");
                     break;
@@ -403,7 +403,7 @@ public class ManagementController implements ControllerInterface {
 
     private void appointmentDetails(){
         System.out.print("Insert the Date-Time of the event you want to check the details: ");
-        LocalDateTime date = Input.lerDateTime();
+        LocalDateTime date = Input.lerDateTime(UTDCController.local_time_date_format);
         if (!this.model.containsEvent(this.username,date)){
             System.out.println("There is not an event with such Date-Time!");
         }else{
